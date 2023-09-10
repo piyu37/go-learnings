@@ -54,7 +54,7 @@ func (m *metadata) checkResponse(done chan bool) {
 	m.httpResponseCodeCount = 0
 }
 
-func main() {
+func fu_sliding_window_counter() {
 	ticker := time.NewTicker(600 * time.Millisecond)
 	done := make(chan bool)
 	responseChan := make(chan response)

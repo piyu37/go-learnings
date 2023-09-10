@@ -80,7 +80,7 @@ var examples = []string{
 	"[a[aa[aaa],ab,ac],b,c[ca,cb,cc[cca]]]",
 }
 
-func main() {
+func string_tree_conversion() {
 	for i, example := range examples {
 		result, err := parse(example)
 		if err != nil {

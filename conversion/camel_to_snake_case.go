@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func main() {
+func camel_to_snake_case() {
 	jsonFile, err := os.Open("request.json")
 	if err != nil {
 		fmt.Println(err)
