@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-func main() {
+func odd_even_print() {
 	syncChannel := make(chan bool) // unbuffered channel.
 
 	wg := new(sync.WaitGroup)

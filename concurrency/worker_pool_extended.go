@@ -60,7 +60,7 @@ func result(done chan bool) {
 	}
 	done <- true
 }
-func main() {
+func worker_pool_extended() {
 	startTime := time.Now()
 	noOfJobs := 100
 	go allocate(noOfJobs)

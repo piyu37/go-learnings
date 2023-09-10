@@ -9,7 +9,7 @@ type A struct {
 	id int
 }
 
-func main() {
+func what_output() {
 	channel := make(chan A, 5)
 
 	var wg sync.WaitGroup

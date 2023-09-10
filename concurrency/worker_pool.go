@@ -22,7 +22,7 @@ func workersPool(id int, jobs <-chan int, results chan<- int) {
 	}
 }
 
-func main() {
+func worker_pool() {
 
 	const numJobs = 5
 	jobs := make(chan int, numJobs)

@@ -22,7 +22,7 @@ func receiver(ch chan int, done chan bool) {
 	done <- true
 }
 
-func main() {
+func generator_receiver() {
 	ch := make(chan int)
 
 	done := make(chan bool)
