@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"practice/log"
+	"practice/apis/log"
 )
 
 func main() {
