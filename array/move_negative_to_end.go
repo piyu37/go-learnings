@@ -29,3 +29,10 @@ func moveNegativeElements(arr []int) {
 
 	fmt.Println(count)
 }
+
+func moveNegativeToEnd() {
+	ar := []int{1, 2, 3, -4, -5, -6, -7}
+	fmt.Println("Original array:", ar)
+	moveNegativeElements(ar)
+	fmt.Println("Modified array:", ar)
+}

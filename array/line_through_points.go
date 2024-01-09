@@ -39,6 +39,14 @@ func LineThroughPoints(points [][]int) int {
 	return maxPointsOnLine
 }
 
+func abs(v1 int) int {
+	if v1 >= 0 {
+		return v1
+	}
+
+	return -v1
+}
+
 func getGCD(x, y int) int {
 	for {
 		if x == 0 {
@@ -51,4 +59,19 @@ func getGCD(x, y int) int {
 
 		x, y = y, x%y
 	}
+}
+
+// https://github.com/lee-hen/Algoexpert/tree/master/very_hard/05_line_through_points
+func lineThroughPointsMain() {
+	arr := [][]int{
+		{1, 1},
+		{2, 2},
+		{3, 3},
+		{0, 4},
+		{-2, 6},
+		{4, 0},
+		{2, 1},
+	}
+
+	fmt.Println(LineThroughPoints(arr))
 }

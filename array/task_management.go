@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math"
 )
 
@@ -59,4 +60,13 @@ func taskManagement(N, T int, input []int) int {
 	}
 
 	return minK
+}
+
+// WAP to find minimum cache window/size to complete N tasks in given T time.
+// A[i] represents time taken to complete each task.
+func taskManagementMain() {
+	N := 6
+	T := 7
+	A := []int{2, 3, 2, 3, 3, 1}
+	fmt.Println(taskManagement(N, T, A))
 }

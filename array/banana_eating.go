@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math"
 )
 
@@ -68,4 +69,11 @@ func findMax(values []int) int {
 	}
 
 	return maxValue
+}
+
+// https://leetcode.com/problems/koko-eating-bananas/
+func bananaEating() {
+	piles := []int{30, 11, 23, 4, 20}
+	h := 10
+	fmt.Println(minEatingSpeed(piles, h))
 }

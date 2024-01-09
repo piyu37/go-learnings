@@ -1,5 +1,7 @@
 package main
 
+// WAP to find the range of target value in sorted array
+// output: [4, 9]; target = 45
 func BinarySearch(array []int, target int) []int {
 	leftIdx := alteredBinarySearch(array, target, true)
 	rightIdx := alteredBinarySearch(array, target, false)

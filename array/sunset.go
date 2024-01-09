@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func SunsetViews(buildings []int, direction string) []int {
 	result := make([]int, 0)
 	buildingsLen := len(buildings)
@@ -31,4 +33,11 @@ func SunsetViews(buildings []int, direction string) []int {
 	}
 
 	return result
+}
+
+// https://github.com/lee-hen/Algoexpert/tree/master/medium/47_sunset_views
+func sunset() {
+	buildings := []int{3, 5, 4, 4, 3, 1, 3, 2}
+	direction := "WEST"
+	fmt.Println(SunsetViews(buildings, direction))
 }

@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func findMinPath(row, col, i, j int, matrix [][]int, pathCount int) int {
 	currentValue := matrix[i][j]
 
@@ -36,6 +38,17 @@ func min(v1, v2 int) int {
 	}
 
 	return v1
+}
+
+// https://www.geeksforgeeks.org/find-minimum-steps-required-to-reach-the-end-of-a-matrix-set-1/
+func reachTheEnd() {
+	arr2D := [][]int{
+		{1, 1, 2},
+		{1, 1, 1},
+		{2, 1, 1},
+	}
+
+	fmt.Println(findMinPath(3, 3, 0, 0, arr2D, -1))
 }
 
 // func main() {

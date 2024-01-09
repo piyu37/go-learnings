@@ -4,6 +4,7 @@ import (
 	"strconv"
 )
 
+// https://www.geeksforgeeks.org/find-all-ranges-of-consecutive-numbers-from-array/
 func Solution(list []int) string {
 	result := ""
 

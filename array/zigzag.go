@@ -34,6 +34,7 @@ func convert(s string, numRows int) string {
 	return result
 }
 
+// https://leetcode.com/problems/zigzag-conversion/description/?envType=study-plan-v2&envId=top-interview-150
 func zigzag() {
 	s := "PAYPALISHIRING"
 	row := 4

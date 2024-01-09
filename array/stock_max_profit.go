@@ -13,6 +13,7 @@ func maxProfit(prices []int) int {
 	return max
 }
 
+// https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/?envType=study-plan-v2&envId=top-interview-150
 func stockMaxProfit() {
 	fmt.Println(maxProfit([]int{1, 2, 4, 3, 5, 6}))
 }

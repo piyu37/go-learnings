@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"sort"
 )
 
@@ -28,4 +29,13 @@ func eraseOverlapIntervals(intervals [][]int) int {
 	}
 
 	return count
+}
+
+// https://leetcode.com/problems/non-overlapping-intervals/
+func nonOverlapingIntervals() {
+	arr := [][]int{
+		{-52, 31}, {-73, -26}, {82, 97}, {-65, -11}, {-62, -49}, {95, 99}, {58, 95},
+		{-31, 49}, {66, 98}, {-63, 2}, {30, 47}, {-40, -26},
+	}
+	fmt.Println(eraseOverlapIntervals(arr))
 }

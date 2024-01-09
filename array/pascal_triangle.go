@@ -33,6 +33,8 @@ func getRowMath(n int) []int {
 	return ans
 }
 
+// https://leetcode.com/problems/pascals-triangle/
+// https://leetcode.com/problems/pascals-triangle-ii/
 func pascalTriangle() {
 	n := 3 // Adjust n as needed
 	result := getRow(n)

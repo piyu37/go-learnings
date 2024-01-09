@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // this will only work when all elements in array is less than len(elements)
 func findDuplicates(nums []int) []int {
 	var duplicates []int
@@ -18,4 +20,14 @@ func findDuplicates(nums []int) []int {
 	}
 
 	return duplicates
+}
+
+// find duplicates from array when numbers in array is lesser than length of array
+func duplicateNumber() {
+	nums := []int{0, 4, 3, 2, 7, 8, 2, 3, 1}
+	duplicates := findDuplicates(nums)
+	fmt.Println("The repeating elements are:")
+	for _, num := range duplicates {
+		fmt.Println(num)
+	}
 }

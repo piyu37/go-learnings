@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func rotateArrayRight(arr [][]int) [][]int {
 	originalRowStart, originalRowEnd := 0, len(arr)
 	originalColStart, originalColEnd := 0, len(arr[0])
@@ -46,4 +48,18 @@ func rotateArrayRight(arr [][]int) [][]int {
 	}
 
 	return arr
+}
+
+// rotate clockwise array by one in right
+// [1 2 3 4			[5 1 2 3
+//  5 6 7 8		=>   9 10 6 4
+//  9 10 11 12		 13 11 7 8
+//  13 14 15 16]	 14 15 16 12]
+func arrayRotate() {
+	arr := [][]int{
+		{1, 2, 3, 4},
+		{5, 6, 7, 8},
+		{9, 10, 11, 12},
+	}
+	fmt.Println(rotateArrayRight(arr))
 }
