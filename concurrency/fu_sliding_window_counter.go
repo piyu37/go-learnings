@@ -27,9 +27,6 @@ type response struct {
 	statusCode int
 }
 
-type workerPool struct {
-}
-
 func (m *metadata) readResponse(responseChan <-chan response) {
 	for r := range responseChan {
 		m.lock.Lock()
