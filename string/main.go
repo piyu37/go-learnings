@@ -9,4 +9,5 @@ func main() {
 	prefixSuffix()
 	reverseWordsMain()
 	stringToIntMain()
+	modifyString()
 }
