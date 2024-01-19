@@ -1,10 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"strconv"
 )
 
-// https://www.geeksforgeeks.org/find-all-ranges-of-consecutive-numbers-from-array/
 func Solution(list []int) string {
 	result := ""
 
@@ -46,4 +46,10 @@ func Solution(list []int) string {
 	result = result[:b]
 
 	return result
+}
+
+// https://www.geeksforgeeks.org/find-all-ranges-of-consecutive-numbers-from-array/
+func combineNumber() {
+	a := []int{-6, -3, -2, -1, 0, 1, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 17, 18, 19, 20}
+	fmt.Println(Solution(a))
 }

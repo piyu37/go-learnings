@@ -3,6 +3,7 @@
 package main
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -25,6 +26,14 @@ func Flatten(m interface{}) []interface{} {
 	}
 
 	return arr
+}
+
+func flattenend() {
+	input := []interface{}{0, 2, []interface{}{[]interface{}{2, 3}, 8,
+		[]interface{}{[]interface{}{100}}, interface{}(nil),
+		[]interface{}{[]interface{}{interface{}(nil)}}}, -2}
+
+	fmt.Println(Flatten(input))
 }
 
 var testCases = []struct {

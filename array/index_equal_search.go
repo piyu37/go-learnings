@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func IndexEqualsValue(array []int) int {
 	left := 0
 	right := len(array) - 1
@@ -24,4 +26,9 @@ func IndexEqualsValue(array []int) int {
 	}
 
 	return -1
+}
+
+func indexEqualSearch() {
+	ar := []int{-12, 1, 2, 3, 12}
+	fmt.Println(IndexEqualsValue(ar))
 }
