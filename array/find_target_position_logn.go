@@ -1,7 +1,7 @@
 package main
 
-// WAP to find the range of target value in sorted array
-// output: [4, 9]; target = 45
+import "fmt"
+
 func BinarySearch(array []int, target int) []int {
 	leftIdx := alteredBinarySearch(array, target, true)
 	rightIdx := alteredBinarySearch(array, target, false)
@@ -40,4 +40,11 @@ func alteredBinarySearch(array []int, target int, goLeft bool) int {
 	}
 
 	return idx
+}
+
+// WAP to find the range of target value in sorted array
+// output: [4, 9]; target = 45
+func findTargetPositionLogN() {
+	arr := []int{0, 1, 21, 33, 45, 45, 45, 45, 45, 45, 61, 71, 73}
+	fmt.Println(BinarySearch(arr, 0))
 }
