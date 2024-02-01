@@ -2,6 +2,7 @@ package main
 
 func main() {
 	generatePath()
+	isSubsequenceMain()
 	longestNonRepeatingSubstring()
 	numberToRoman()
 	palindromicSubstringsMain()

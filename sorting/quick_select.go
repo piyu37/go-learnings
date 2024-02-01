@@ -3,11 +3,9 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"time"
 )
 
 func partiton(array []int, low, high int) int {
-	rand.Seed(time.Now().UnixNano())
 	pivot := rand.Intn(high-low+1) + low
 
 	array[high], array[pivot] = array[pivot], array[high]
