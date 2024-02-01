@@ -34,7 +34,7 @@ func search(nums []int, target int) int {
 	return -1
 }
 
-func main() {
+func rotatedSortedArrSearch() {
 	nums := []int{4, 5, 6, 7, 0, 1, 2}
 	fmt.Println(search(nums, 0))
 }
