@@ -5,6 +5,8 @@ func main() {
 	//-----------------------------------
 	fu_sliding_window_counter()
 	//-----------------------------------
+	generatorReceiverWorkerPool()
+	//-----------------------------------
 	generator_receiver()
 	//-----------------------------------
 	odd_even_print()

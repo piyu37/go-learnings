@@ -39,7 +39,12 @@ func LineThroughPoints(points [][]int) int {
 	return maxPointsOnLine
 }
 
-func abs(v1 int) int {
+type floatInt interface {
+	~float32 | ~float64 | ~int | ~int16 | ~int32 | ~int64
+}
+
+// generic method
+func abs[fi floatInt](v1 fi) fi {
 	if v1 >= 0 {
 		return v1
 	}

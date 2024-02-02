@@ -1,0 +1,90 @@
+// checkout product
+// payment
+// order placed
+
+functional requirements:
+  - user can see the products
+  - user can search the products
+  - place the order
+  - payment
+  - shipping
+  - order
+
+non-functional requirements:
+  user consistency
+  inventory consistent, unstructured data
+  latency < 1 sec
+  read heavy
+
+  assumptions:
+    uers serve? 1 billion
+    conncurrent users: 1k tps
+    order place => 200 tps
+
+
+
+product:
+- productID
+- brandID
+- size
+- variant
+- price
+- description
+- sellerInfo
+- category
+- invertory
+- images/videos: urls
+
+inventory:
+- productID
+- capacity
+- stock qty
+
+order:
+- orderID
+- paymentID
+- shiiping address
+- cartID
+- userID
+- status
+
+orderItems:
+orderID
+cartlineID
+qty
+offeringID
+subtotal
+
+payment
+- payment id
+- order id
+- date
+- amount
+- payment method
+- tranaction id
+
+
+
+cart:
+- cartID
+- total
+- cartlineIDs
+
+
+cartline
+- cartID
+- cartlineID
+- productID
+- qty
+- size
+
+
+SELECT cl.productID where c.cartlineIds IN (select cartlineIDs from cart where o.userID = userID) from order o
+INNER join cart c on c.cartID = o.cartID AND inner join cartline cl on cl.cartID = c.cartID;
+
+
+user:
+
+
+
+
