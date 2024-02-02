@@ -2,9 +2,10 @@ package main
 
 func main() {
 	generatePath()
+	sortStringByLetter()
 	isSubsequenceMain()
+	kSizeReverseLexicographicallySmaller()
 	longestNonRepeatingSubstring()
-	numberToRoman()
 	palindromicSubstringsMain()
 	permutation()
 	prefixSuffix()

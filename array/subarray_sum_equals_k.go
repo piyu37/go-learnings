@@ -3,11 +3,11 @@ package main
 import "fmt"
 
 // For only positive values in array
-func subarraySum(nums []int, k int) int {
+func subarraySumForPositive1(nums []int, k int) int {
 	maxCount := 0
-	sum := 0
+	sum := nums[0]
 	left := 0
-	right := 0
+	right := 1
 
 	for left < len(nums) {
 		for right < len(nums) && sum < k {
@@ -15,18 +15,40 @@ func subarraySum(nums []int, k int) int {
 			right++
 		}
 
-		if sum == k && right > 0 {
+		if sum == k {
 			maxCount++
 		}
 
-		for left <= right && left < len(nums) && sum >= k {
+		if left <= right && sum >= k {
+			sum -= nums[left]
+			left++
+		}
+	}
+
+	return maxCount
+}
+
+// For only positive values in array
+func subarraySumForPositive2(nums []int, k int) int {
+	maxCount := 0
+	sum := nums[0]
+	left := 0
+	right := 0
+
+	for right < len(nums) {
+		for left <= right && sum > k {
 			sum -= nums[left]
 			left++
 		}
 
-		if right == left {
+		if sum == k {
+			maxCount++
+		}
+
+		right++
+
+		if right < len(nums) {
 			sum += nums[right]
-			right++
 		}
 	}
 
@@ -59,7 +81,8 @@ func subarraySum2(arr []int, k int) int {
 // https://leetcode.com/problems/subarray-sum-equals-k/description/
 func subarraySumEqualsK() {
 	arr0 := []int{1, 2, 3}
-	fmt.Println(subarraySum(arr0, 3))
+	fmt.Println(subarraySumForPositive1(arr0, 3))
+	fmt.Println(subarraySumForPositive2(arr0, 3))
 	arr := []int{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 	fmt.Println(subarraySum2(arr, 0))
 }
