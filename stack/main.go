@@ -6,7 +6,9 @@ func main() {
 	largestRectangleAreaMain()
 	minMaxStackMain()
 	nextGreaterElementMain()
+	nextGreaterElement2()
 	shortenPathMain()
 	sortStackMain()
 	trappingRainWater()
+	createStackFromLL()
 }

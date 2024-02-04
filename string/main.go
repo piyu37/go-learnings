@@ -6,10 +6,12 @@ func main() {
 	isSubsequenceMain()
 	kSizeReverseLexicographicallySmaller()
 	longestNonRepeatingSubstring()
+	modifyString()
 	palindromicSubstringsMain()
 	permutation()
 	prefixSuffix()
 	reverseWordsMain()
+	skillikzCreatePalindrome()
 	stringToIntMain()
-	modifyString()
+	generateRandomPasswords()
 }

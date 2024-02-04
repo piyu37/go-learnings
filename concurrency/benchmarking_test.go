@@ -6,6 +6,7 @@ import (
 	"testing"
 )
 
+// This benchmark tells the performance of worker pool when we use one go-routine or multiple
 // BenchmarkWithNoBuffer-12: number 12 represents the number of goroutines being used during the benchmark
 // 1 col: no. of iterations
 // 2 col: average time per iteration
