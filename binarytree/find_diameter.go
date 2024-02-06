@@ -28,7 +28,6 @@ func getTreeInfo(tree *BinaryTree) treeInfo {
 	}
 }
 
-
 func BinaryTreeDiameter(tree *BinaryTree) int {
 	return getTreeInfo(tree).diameter
 }
