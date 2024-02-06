@@ -23,6 +23,7 @@ func flattend_bt_preorder(root *TreeNode) {
 }
 
 // program to convert tree into linked list in preorder fashion
+// https://leetcode.com/problems/flatten-binary-tree-to-linked-list/description/?envType=study-plan-v2&envId=top-interview-150
 func flattendBTPreorderMain() {
 	tree := &TreeNode{
 		Val: 1,

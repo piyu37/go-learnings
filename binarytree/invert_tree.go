@@ -38,6 +38,18 @@ func invertLeftAndRight(root *BinaryTree) *BinaryTree {
 	return root
 }
 
+func invertTreeOptimal(root *BinaryTree) *BinaryTree {
+	if root == nil {
+		return root
+	}
+
+	right := root.Right
+	root.Right = invertTreeOptimal(root.Left)
+	root.Left = invertTreeOptimal(right)
+
+	return root
+}
+
 // https://leetcode.com/problems/invert-binary-tree/description/?envType=study-plan-v2&envId=top-interview-150
 func invertTree() {
 	tree := &BinaryTree{
@@ -69,4 +81,5 @@ func invertTree() {
 	}
 
 	tree.InvertBinaryTree()
+	invertTreeOptimal(tree)
 }
