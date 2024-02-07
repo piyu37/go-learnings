@@ -20,6 +20,7 @@ func main() {
 	levelOrderIteration()
 	maxDepthMain()
 	maxPathSumMain()
+	morrisTraversal()
 	nodeDepthsIterMain()
 	nodeDepthsMain()
 	pathSum()
