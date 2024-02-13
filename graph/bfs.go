@@ -2,23 +2,23 @@ package main
 
 import "fmt"
 
-type Node struct {
+type GraphNode struct {
 	Name     string
-	Children []*Node
+	Children []*GraphNode
 }
 
-func (n *Node) AddChildren(names ...string) *Node {
+func (n *GraphNode) AddChildren(names ...string) *GraphNode {
 	for _, name := range names {
-		child := Node{Name: name}
+		child := GraphNode{Name: name}
 		n.Children = append(n.Children, &child)
 	}
 	return n
 }
 
-func (n *Node) bfs() []string {
+func (n *GraphNode) bfs() []string {
 	result := make([]string, 0)
 
-	stack := make([]*Node, 0)
+	stack := make([]*GraphNode, 0)
 
 	stack = append(stack, n)
 
@@ -36,7 +36,7 @@ func (n *Node) bfs() []string {
 }
 
 func bfsMain() {
-	g := &Node{
+	g := &GraphNode{
 		Name: "A",
 	}
 
