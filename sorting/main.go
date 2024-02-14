@@ -4,4 +4,6 @@ func main() {
 	quickSelectMain()
 	radixSortMain()
 	sortStringLexi()
+	sortSliceOfString()
+	sortString()
 }
