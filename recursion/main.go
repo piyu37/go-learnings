@@ -5,6 +5,8 @@ func main() {
 	attackingQueen()
 	binaryTopology()
 	brackets()
+	combinationSumMain()
+	combinations()
 	decimalBinary()
 	generateDivTagsMain()
 	interweavingStringsCacheMain()
