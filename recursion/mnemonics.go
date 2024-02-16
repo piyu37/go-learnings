@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-var phoneNemonicsMap map[string][]string = map[string][]string{
+var phoneNemonicsMap = map[string][]string{
 	"1": {"1"},
 	"2": {"a", "b", "c"},
 	"3": {"d", "e", "f"},
