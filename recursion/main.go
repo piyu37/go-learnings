@@ -21,4 +21,5 @@ func main() {
 	staircaseTraversalIterMain()
 	staircaseTraversalMain()
 	sudoku()
+	wordSearch()
 }
