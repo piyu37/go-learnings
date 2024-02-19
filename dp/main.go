@@ -7,6 +7,7 @@ func main() {
 	knapsackMain()
 	levenshtienDistance()
 	longestCommonSubsequenceMain()
+	longestIncreasingSubsequence()
 	longestPalindromString()
 	maxEnergyMain()
 	maxSeparation()

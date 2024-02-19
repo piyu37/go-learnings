@@ -35,4 +35,9 @@ func combinationSumMain() {
 	target := 8
 
 	fmt.Println(combinationSum(candidates, target))
+
+	candidates = []int{186, 419, 83, 408}
+	target = 6249
+
+	fmt.Println(combinationSum(candidates, target))
 }
