@@ -43,7 +43,7 @@ func fetchData(w http.ResponseWriter, r *http.Request) {
 
 func server() {
 	http.HandleFunc("/user", fetchData)
-	panic(http.ListenAndServe("localhost:9767", http.HandlerFunc(fetchData)))
+	panic(http.ListenAndServe(":9767", nil))
 }
 
 func client() {
