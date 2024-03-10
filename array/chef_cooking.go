@@ -93,7 +93,7 @@ func evaluateCookingDay(ings []string, toi, toc int) string {
 // https://coderanch.com/t/726461/java/Solving-complex-programming
 // With above question, the other requirement was chef has 5 categories
 // each ingredient category expires in following times:
-// fat - 1, carb - 2, protein-3, fiber-3, seasoning-4
+// fat - 1, carb - 2, protein-3, fiber-4, seasoning-5
 
 // i/p = p1, s1, c1, s2, f1, f2, p2
 // for cat store, arr

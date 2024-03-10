@@ -1,6 +1,7 @@
 package main
 
 func main() {
+	copyLL()
 	llPalindromeRecursion()
 	llPalindrome()
 	llSum()

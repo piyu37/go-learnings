@@ -56,7 +56,7 @@ func max(v1, v2 int) int {
 // https://leetcode.com/problems/maximum-subarray/description/?envType=study-plan-v2&envId=top-interview-150
 // https://leetcode.com/problems/maximum-sum-circular-subarray/description/?envType=study-plan-v2&envId=top-interview-150
 func maxSubarrayKadane() {
-	arr := []int{-2, 1, -3, 4, -1, 2, 1, -5, 4}
+	arr := []int{4, 1, -6, 4, -1, 2, 1, -5, 4}
 	fmt.Println(maxSubArray(arr))
 	fmt.Println(maxSubarraySumCircular(arr))
 	arr = []int{9, -4, -7, 9}
