@@ -2,11 +2,13 @@ package main
 
 func main() {
 	allKindOfNodeDepth()
+	avgOfLevelsMain()
 	balancedBT()
 	binaryTree()
 	branchSumMain()
 	bstIteratorMain()
 	bstIterator2Main()
+	btRightSideView()
 	compareLeafMain()
 	countCompleteTreenNodes()
 	createTreeFromInorderPostorderTraversal()
@@ -32,4 +34,5 @@ func main() {
 	isSameTreeMain()
 	sumRootToLeaf()
 	symmetricTree()
+	zigzagLevelOrderTraversal()
 }
