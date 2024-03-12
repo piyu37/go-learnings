@@ -2,7 +2,8 @@ package main
 
 import "fmt"
 
-func rotateArrayByK() {
+// when using extra space
+func rotateArrayByKWithExtraSpace() {
 	var (
 		N, K int = 6, 2
 	)
@@ -17,4 +18,47 @@ func rotateArrayByK() {
 	for i := range arr {
 		fmt.Printf("%d ", arr[(i+(N-K))%N])
 	}
+}
+
+func rotateArrayByKWithoutExtraSpace(nums []int, k int) {
+	numsLen := len(nums)
+
+	if numsLen < 2 {
+		return
+	}
+
+	k = k % numsLen
+
+	left := 0
+	right := numsLen - k - 1
+	for left < right {
+		nums[left], nums[right] = nums[right], nums[left]
+		left++
+		right--
+	}
+
+	left = numsLen - k
+	right = numsLen - 1
+	for left < right {
+		nums[left], nums[right] = nums[right], nums[left]
+		left++
+		right--
+	}
+
+	left = 0
+	right = numsLen - 1
+	for left < right {
+		nums[left], nums[right] = nums[right], nums[left]
+		left++
+		right--
+	}
+}
+
+// https://leetcode.com/problems/rotate-array/?envType=study-plan-v2&envId=top-interview-150
+func rotate1DArrayByKMain() {
+	rotateArrayByKWithExtraSpace()
+	arr := []int{1, 2, 3, 4, 5, 6}
+	k := 2
+	rotateArrayByKWithoutExtraSpace(arr, k)
+	fmt.Println(arr)
 }

@@ -2,7 +2,7 @@ package main
 
 import "math"
 
-func validateBST(bst *BST) bool {
+func validateBST1(bst *BST) bool {
 	min := math.MinInt
 	return inorder(bst, &min, true)
 }
@@ -29,6 +29,53 @@ func inorder(bst *BST, min *int, leftFlag bool) bool {
 	}
 
 	return true
+}
+
+func validateBST2(root *BST) bool {
+	inorderArr := []int{}
+
+	inorderTraversal(root, &inorderArr)
+
+	for i := 1; i < len(inorderArr); i++ {
+		if inorderArr[i] <= inorderArr[i-1] {
+			return false
+		}
+	}
+
+	return true
+}
+
+func validateBST3(root *BST) bool {
+	prev := math.MinInt64
+	return inorderBST3(root, &prev)
+}
+
+func inorderBST3(root *BST, prev *int) bool {
+	if root == nil {
+		return true
+	}
+
+	if !inorderBST3(root.Left, prev) {
+		return false
+	}
+
+	if root.Value <= *prev {
+		return false
+	}
+
+	*prev = root.Value
+
+	return inorderBST3(root.Right, prev)
+}
+
+func inorderTraversal(root *BST, inorderArr *[]int) {
+	if root == nil {
+		return
+	}
+
+	inorderTraversal(root.Left, inorderArr)
+	*inorderArr = append(*inorderArr, root.Value)
+	inorderTraversal(root.Right, inorderArr)
 }
 
 // https://github.com/lee-hen/Algoexpert/tree/master/medium/09_validate_bst
@@ -67,5 +114,7 @@ func validateBSTMain() {
 		},
 	}
 
-	println(validateBST(bst))
+	println(validateBST1(bst))
+	println(validateBST2(bst))
+	println(validateBST3(bst))
 }
