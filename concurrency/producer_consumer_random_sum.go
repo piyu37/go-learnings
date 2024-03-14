@@ -10,16 +10,19 @@ type sumCal struct {
 	total int
 }
 
-func (sc sumCal) producer(id int, ch chan<- int) {
+func (sc sumCal) producer(id int, ch chan<- int, done <-chan bool) {
 	for {
-		num := rand.Intn(100) + 1
-
-		ch <- num
-		time.Sleep(1000)
+		select {
+		case <-done:
+			return
+		case <-time.After(1 * time.Second):
+			num := rand.Intn(100) + 1
+			ch <- num
+		}
 	}
 }
 
-func (sc sumCal) consumer(ch []chan int) {
+func (sc sumCal) consumer(ch <-chan int) {
 	for i := range ch {
 		sc.total += i
 		fmt.Println(sc.total)
@@ -44,15 +47,22 @@ func (sc sumCal) consumer(ch []chan int) {
 // Your task is to write the complete program, including the producer and consumer functions,
 // and any other necessary functions or variables.
 func producerConsumerRandomSum() {
-	ch := make([]chan int, 3)
+	fmt.Println("---------producerConsumerRandomSum----------")
+	ch := make(chan int)
 	done := make(chan bool)
 	sc := sumCal{}
 
 	for i := 0; i < 3; i++ {
-		go sc.producer(i, ch[i])
+		go sc.producer(i, ch, done)
 	}
 
 	go sc.consumer(ch)
 
-	<-done
+	<-time.After(5 * time.Second)
+
+	for i := 0; i < 3; i++ {
+		done <- true
+	}
+
+	close(ch)
 }
