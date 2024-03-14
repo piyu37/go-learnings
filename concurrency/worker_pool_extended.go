@@ -62,7 +62,7 @@ func result(done chan bool) {
 }
 func worker_pool_extended() {
 	startTime := time.Now()
-	noOfJobs := 100
+	noOfJobs := 40
 	go allocate(noOfJobs)
 	done := make(chan bool)
 	go result(done)
