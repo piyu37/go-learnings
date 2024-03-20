@@ -22,5 +22,7 @@ func main() {
 	noOfWaysToMakeChange()
 	noOfWaysTraverseGraph()
 	numbersInPi()
+	triangle()
 	waterArea()
+	wordBreakMain()
 }

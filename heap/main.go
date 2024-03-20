@@ -5,5 +5,6 @@ func main() {
 	heapSortMain()
 	heapMain()
 	kthLargest()
+	mstPrimmsMain()
 	totalCostHireKWorkers()
 }
