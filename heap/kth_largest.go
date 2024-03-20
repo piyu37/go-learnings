@@ -34,8 +34,48 @@ func findKthLargest(nums []int, k int) int {
 	return result
 }
 
+func findKthLargestOptimal(nums []int, k int) int {
+	if len(nums) == 0 {
+		return -1
+	}
+
+	minVal, maxVal := nums[0], nums[0]
+
+	for i := 1; i < len(nums); i++ {
+		if nums[i] < minVal {
+			minVal = nums[i]
+		}
+
+		if nums[i] > maxVal {
+			maxVal = nums[i]
+		}
+	}
+
+	arrSize := maxVal - minVal + 1
+	newArr := make([]int, arrSize)
+
+	for i := range nums {
+		newArr[nums[i]-minVal]++
+	}
+
+	remain := k
+
+	for i := arrSize - 1; i >= 0; i-- {
+		if newArr[i] > 0 {
+			remain -= newArr[i]
+
+			if remain <= 0 {
+				return i + minVal
+			}
+		}
+	}
+
+	return -1
+}
+
 // https://leetcode.com/problems/kth-largest-element-in-an-array/description/?envType=study-plan-v2&envId=top-interview-150
 func kthLargest() {
 	arr := []int{3, 2, 3, 1, 2, 4, 5, 5, 6}
 	fmt.Println(findKthLargest(arr, 4))
+	fmt.Println(findKthLargestOptimal(arr, 4))
 }
