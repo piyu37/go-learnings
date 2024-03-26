@@ -1,6 +1,7 @@
 package main
 
 func main() {
+	basicCalculator()
 	generatePath()
 	sortStringByLetter()
 	isSubsequenceMain()
