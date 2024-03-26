@@ -8,6 +8,7 @@ func main() {
 	combinationSumMain()
 	combinations()
 	decimalBinary()
+	decodeWays()
 	generateDivTagsMain()
 	interweavingStringsCacheMain()
 	interweavingStringsMain()
