@@ -8,6 +8,7 @@ func main() {
 	generator_receiver()
 	numberDoubleWorkerPool()
 	oddEvenPrintMain()
+	pingPongWith1Channel()
 	pingPong()
 	producerConsumerRandomSum()
 	ticker()
