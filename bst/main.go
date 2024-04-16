@@ -5,9 +5,11 @@ func main() {
 	closestValueBSTMain()
 	deletionMain()
 	kthLargestMain()
+	minAbsoluteDiffMain()
 	minHeightBST()
 	rightSmallerThanMain()
 	sameBSTMain()
+	snakesLadderMain()
 	validateBSTMain()
 	validateThreeNodesMain()
 }
