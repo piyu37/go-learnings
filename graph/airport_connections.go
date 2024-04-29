@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func get_min_no_of_airport_connections(airports []string, routes [][]string, startingAirport string) int {
+func get_min_no_of_airport_connections(airports []string, routes [][]string) int {
 	routeMap := make(map[string][]string)
 	connectionMap := make(map[string][]string)
 
@@ -70,6 +70,6 @@ func airportConnectionsMain() {
 
 	startingAirport := "LGA"
 
-	fmt.Println(get_min_no_of_airport_connections(airports, routes, startingAirport))
+	fmt.Println(get_min_no_of_airport_connections(airports, routes))
 	fmt.Println(AirportConnections(airports, routes, startingAirport))
 }
