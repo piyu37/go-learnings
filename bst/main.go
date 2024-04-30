@@ -9,7 +9,6 @@ func main() {
 	minHeightBST()
 	rightSmallerThanMain()
 	sameBSTMain()
-	snakesLadderMain()
 	validateBSTMain()
 	validateThreeNodesMain()
 }
