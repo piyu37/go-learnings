@@ -66,6 +66,33 @@ func (t *Trie) Search(word string) bool {
 	return trie.Flag
 }
 
+func (t *Trie) WildSearch(word string) bool {
+	trie := t
+
+	for i := range word {
+		ch := word[i]
+
+		if ch == '.' || !containsKey(trie, ch) {
+			if ch == '.' {
+				for _, link := range trie.Links {
+					if link != nil {
+						newWord := word[i+1:]
+						if link.WildSearch(newWord) {
+							return true
+						}
+					}
+				}
+			}
+
+			return false
+		} else {
+			trie = get(trie, ch)
+		}
+	}
+
+	return trie.Flag
+}
+
 func (t *Trie) StartsWith(prefix string) bool {
 	trie := t
 
@@ -83,14 +110,20 @@ func (t *Trie) StartsWith(prefix string) bool {
 }
 
 // https://leetcode.com/problems/implement-trie-prefix-tree/description/?envType=study-plan-v2&envId=top-interview-150
+// https://leetcode.com/problems/design-add-and-search-words-data-structure/description/?envType=study-plan-v2&envId=top-interview-150
 func trie() {
 	t := Constructor()
 
 	t.Insert("apple")
 	t.Insert("apps")
+	t.Insert("a")
 	fmt.Println(t.Search("apps"))
 	fmt.Println(t.Search("abcd"))
 	fmt.Println(t.Search("app"))
+	fmt.Println(t.WildSearch("a."))
+	fmt.Println(t.WildSearch("a.ps"))
+	fmt.Println(t.WildSearch("..ps"))
+	fmt.Println(t.WildSearch(".ps"))
 	fmt.Println(t.StartsWith("app"))
 	fmt.Println(t.StartsWith("ab"))
 }
