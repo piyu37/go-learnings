@@ -9,6 +9,7 @@ func main() {
 	minHeightBST()
 	rightSmallerThanMain()
 	sameBSTMain()
+	sortedArrayToBSTMain()
 	validateBSTMain()
 	validateThreeNodesMain()
 }
