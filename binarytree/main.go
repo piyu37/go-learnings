@@ -10,6 +10,7 @@ func main() {
 	bstIterator2Main()
 	btRightSideView()
 	compareLeafMain()
+	constructQuadTree()
 	countCompleteTreenNodes()
 	createTreeFromInorderPostorderTraversal()
 	createTreeFromPreorderInorderTraversal()
