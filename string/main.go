@@ -7,6 +7,7 @@ func main() {
 	isSubsequenceMain()
 	kSizeReverseLexicographicallySmaller()
 	longestNonRepeatingSubstring()
+	longestSubstringKUniqueChar()
 	modifyString()
 	palindromicSubstringsMain()
 	permutation()
