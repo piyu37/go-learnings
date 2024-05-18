@@ -2,6 +2,7 @@ package main
 
 func main() {
 	balancedBracketsMain()
+	evaluateRPN()
 	largestBuilding()
 	largestRectangleAreaMain()
 	minMaxStackMain()
