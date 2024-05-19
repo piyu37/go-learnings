@@ -93,12 +93,12 @@ func (c *cache) ArrayChallenge(strArr []string) string {
 	return output
 }
 
-// func main() {
-// 	arr := []string{"A", "B", "A", "C", "A", "B"}
-// 	c := cache{
-// 		maxSize: 5,
-// 		llMap:   make(map[string]*node),
-// 	}
+func cacheArray() {
+	arr := []string{"A", "B", "A", "C", "A", "B"}
+	c := cache{
+		maxSize: 5,
+		llMap:   make(map[string]*node),
+	}
 
-// 	fmt.Println(c.ArrayChallenge(arr))
-// }
+	fmt.Println(c.ArrayChallenge(arr))
+}
