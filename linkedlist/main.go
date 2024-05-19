@@ -15,5 +15,6 @@ func main() {
 	removeLastKNode()
 	reverseLL()
 	reverseKthPosition()
+	sort()
 	zipLL()
 }

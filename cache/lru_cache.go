@@ -6,7 +6,8 @@ import "fmt"
 // getValueFromKey, and getMostRecentKey methods. Feel free
 // to add new properties and methods to the class.
 type Node struct {
-	value      string
+	key        string
+	value      int
 	prev, next *Node
 }
 
@@ -14,7 +15,6 @@ type LRUCache struct {
 	maxSize    int
 	head, tail *Node
 	llMap      map[string]*Node
-	kvMap      map[string]int
 	// Add fields here.
 }
 
@@ -27,7 +27,6 @@ func NewLRUCache(size int) *LRUCache {
 func (cache *LRUCache) deleteNode(node *Node, key string) {
 	if cache.head == cache.tail {
 		delete(cache.llMap, key)
-		delete(cache.kvMap, key)
 		cache.head = nil
 		cache.tail = nil
 		node = nil
@@ -38,7 +37,6 @@ func (cache *LRUCache) deleteNode(node *Node, key string) {
 		node.next.prev = nil
 		cache.head = node.next
 		delete(cache.llMap, key)
-		delete(cache.kvMap, key)
 		node = nil
 		return
 	}
@@ -47,7 +45,6 @@ func (cache *LRUCache) deleteNode(node *Node, key string) {
 		cache.tail = node.prev
 		node.prev.next = nil
 		delete(cache.llMap, key)
-		delete(cache.kvMap, key)
 		node = nil
 		return
 	}
@@ -55,21 +52,19 @@ func (cache *LRUCache) deleteNode(node *Node, key string) {
 	node.prev.next = node.next
 	node.next.prev = node.prev
 	delete(cache.llMap, key)
-	delete(cache.kvMap, key)
 	node = nil
 }
 
 func (cache *LRUCache) InsertNode(key string, value int) {
 	if len(cache.llMap) == 0 {
 		node := &Node{
-			value: key,
+			key:   key,
+			value: value,
 		}
 
 		cache.llMap = map[string]*Node{}
-		cache.kvMap = map[string]int{}
 
 		cache.llMap[key] = node
-		cache.kvMap[key] = value
 		cache.head = node
 		cache.tail = node
 
@@ -77,14 +72,14 @@ func (cache *LRUCache) InsertNode(key string, value int) {
 	}
 
 	node := &Node{
-		value: key,
+		key:   key,
+		value: value,
 	}
 
 	node.next = cache.head
 	cache.head.prev = node
 	cache.head = node
 	cache.llMap[key] = node
-	cache.kvMap[key] = value
 }
 
 func (cache *LRUCache) InsertKeyValuePair(key string, value int) {
@@ -98,7 +93,7 @@ func (cache *LRUCache) InsertKeyValuePair(key string, value int) {
 		if len(cache.llMap) == cache.maxSize {
 			// delete node and add at start
 			// update map
-			cache.deleteNode(cache.tail, cache.tail.value)
+			cache.deleteNode(cache.tail, cache.tail.key)
 			cache.InsertNode(key, value)
 		} else {
 			// add node at start
@@ -111,14 +106,14 @@ func (cache *LRUCache) InsertKeyValuePair(key string, value int) {
 // The second return value indicates whether or not the key was found
 // in the cache.
 func (cache *LRUCache) GetValueFromKey(key string) (int, bool) {
-	v, ok := cache.kvMap[key]
+	v, ok := cache.llMap[key]
 	if !ok {
 		return -1, false
 	}
 
-	cache.InsertKeyValuePair(key, v)
+	cache.InsertKeyValuePair(key, v.value)
 
-	return v, true
+	return v.value, true
 }
 
 // The second return value is false if the cache is empty.
@@ -127,10 +122,10 @@ func (cache *LRUCache) GetMostRecentKey() (string, bool) {
 		return "", false
 	}
 
-	return cache.head.value, true
+	return cache.head.key, true
 }
 
-func main() {
+func lruCache() {
 	c := NewLRUCache(3)
 	c.InsertKeyValuePair("b", 2)
 	c.InsertKeyValuePair("a", 1)
