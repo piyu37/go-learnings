@@ -10,6 +10,7 @@ func main() {
 	flattenend()
 	gameLife()
 	getTheGroupsMain()
+	groupAnagramsMain()
 	hIndexMain()
 	insertDeleteRandom()
 	insertInterval()
