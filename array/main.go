@@ -12,6 +12,7 @@ func main() {
 	getTheGroupsMain()
 	groupAnagramsMain()
 	hIndexMain()
+	isHappyMain()
 	insertDeleteRandom()
 	insertInterval()
 	lineThroughPointsMain()
