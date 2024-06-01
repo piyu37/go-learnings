@@ -42,6 +42,7 @@ func alteredBinarySearch(array []int, target int, goLeft bool) int {
 	return idx
 }
 
+// https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/?envType=study-plan-v2&envId=top-interview-150
 // WAP to find the range of target value in sorted array
 // output: [4, 9]; target = 45
 func findTargetPositionLogN() {
