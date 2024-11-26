@@ -30,7 +30,6 @@ func player(ctx context.Context, name string, inCh <-chan int, outCh chan<- int,
 
 func pingPong() {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	ctx2 := ctx
 	defer cancel()
 	var wg sync.WaitGroup
 
@@ -39,7 +38,7 @@ func pingPong() {
 
 	wg.Add(2)
 	go player(ctx, "Player 1", inCh, outCh, &wg)
-	go player(ctx2, "Player 2", outCh, inCh, &wg)
+	go player(ctx, "Player 2", outCh, inCh, &wg)
 
 	inCh <- 0
 
