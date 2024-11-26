@@ -74,7 +74,7 @@ func (m *metadata) produceEvents(timer *time.Timer, responses []int, ch chan<- r
 	fmt.Println("closing: all data read")
 }
 
-func (m *metadata) cronJob(tickDuration int, timer *time.Timer, cronDone, prodDone chan bool,
+func (m *metadata) cronJob(tickDuration int, cronDone, prodDone chan bool,
 	wg *sync.WaitGroup) {
 	defer wg.Done()
 	ticker := time.NewTicker(time.Duration(tickDuration) * time.Millisecond)
@@ -134,7 +134,7 @@ func fu_sliding_window_counter() {
 	}
 
 	wg.Add(1)
-	go m.cronJob(tickDuration, timer, cronDone, prodDone, &wg)
+	go m.cronJob(tickDuration, cronDone, prodDone, &wg)
 
 	wg.Wait()
 	m.checkResponse()
