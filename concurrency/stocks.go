@@ -64,10 +64,10 @@ func rateLimiter(rateLimit int, stop <-chan struct{}) <-chan struct{} {
 		for {
 			select {
 			case <-ticker.C:
-				select {
-				case tokens <- struct{}{}:
-				default:
-				}
+				// select {
+				// case tokens <- struct{}{}:
+				// default:
+				// }
 			case <-stop:
 				close(tokens)
 				return
@@ -85,6 +85,7 @@ func rateLimiter(rateLimit int, stop <-chan struct{}) <-chan struct{} {
 // Rate limit API requests so that a maximum of N requests per second are made to the API, with any additional requests being queued.
 // Timeout Control: Each stock price fetch and processing task should have a timeout. If a task takes longer than the allotted time, it should be canceled and recorded as "failed."
 // Graceful Shutdown: On receiving a shutdown signal, the system should complete all currently executing tasks, discard any pending tasks, and log any failed or completed stock symbol updates.
+
 // Requirements
 // Fetch Interval: The stock prices should be fetched every 5 seconds.
 // Rate Limiting: Limit API requests to 10 requests per second.
@@ -92,12 +93,14 @@ func rateLimiter(rateLimit int, stop <-chan struct{}) <-chan struct{} {
 // Worker Pool Concurrency: Use a pool of 5 workers to process stock prices concurrently.
 // Task Queue: Use a buffered channel to queue tasks if the processing limit is reached.
 // Graceful Shutdown: On receiving a shutdown signal, allow all ongoing tasks to complete and log the status of each stock symbol as either "completed," "timed out," or "discarded."
+
 // Constraints
 // Use time.Ticker to manage the 5-second fetch interval.
 // Use a context.Context with a timeout to control each task's execution time.
 // Use a buffered channel to queue API requests and prevent excessive requests beyond the limit.
 // Implement the worker pool to manage concurrent task processing.
 // Ensure safe access to any shared resources using appropriate synchronization.
+
 // Example Workflow
 // Every 5 seconds, the system fetches the price for a list of stock symbols (e.g., ["AAPL", "GOOGL", "AMZN"]).
 // API requests are limited to 10 requests per second. If more symbols need to be fetched, they are queued until the rate limit allows more requests.
