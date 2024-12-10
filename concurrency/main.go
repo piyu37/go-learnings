@@ -1,6 +1,7 @@
 package main
 
 func main() {
+	concurrencyLearning()
 	extendedOddEven()
 	fibbo()
 	fu_sliding_window_counter() // this is for array; do it same for unlimited random status
