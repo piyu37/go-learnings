@@ -10,6 +10,7 @@ func main() {
 	decimalBinary()
 	decodeWays()
 	generateDivTagsMain()
+	goodNumber()
 	interweavingStringsCacheMain()
 	interweavingStringsMain()
 	lowestCommonManager()
