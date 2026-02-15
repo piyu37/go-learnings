@@ -16,60 +16,64 @@ type StockTask struct {
 	Status string
 }
 
-func fetchPrice(id int, symbol string, done chan struct{}) (float64, error) {
-	fmt.Printf("Worker %d: Fetching price for %s...\n", id, symbol)
-	time.Sleep(time.Duration(rand.Intn(1500)) * time.Millisecond) // Simulated fetch
-	price := rand.Float64() * 1000
-	fmt.Printf("Worker %d: Processed %s at price $%.2f\n", id, symbol, price)
-	close(done) // Signal that the fetch is complete
-	return price, nil
+func fetchPrice(ctx context.Context, id int, symbol string) (float64, error) {
+	fmt.Printf("Worker %d: Fetching %s...\n", id, symbol)
+	delay := time.Duration(rand.Intn(2500)) * time.Millisecond
+	select {
+	case <-time.After(delay):
+		price := rand.Float64() * 1000
+		fmt.Printf("Worker %d: Processed %s at $%.2f\n", id, symbol, price)
+		return price, nil
+	case <-ctx.Done():
+		return 0, ctx.Err()
+	}
 }
 
 func stockWorker(id int, tasks <-chan StockTask, results chan<- StockTask, wg *sync.WaitGroup) {
 	defer wg.Done()
 	for task := range tasks {
 		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+		_, err := fetchPrice(ctx, id, task.Symbol)
+		cancel()
 
-		done := make(chan struct{})
-		var status string
-
-		// Use fetchPrice for fetching the stock price
-		go func() {
-			_, err := fetchPrice(id, task.Symbol, done)
-			if err == nil {
-				status = "completed"
-			} else {
-				status = "failed"
-			}
-		}()
-
-		select {
-		case <-done:
-			task.Status = status
-		case <-ctx.Done():
-			fmt.Printf("Worker %d: Timeout for %s\n", id, task.Symbol)
+		switch {
+		case err == context.DeadlineExceeded || err == context.Canceled:
 			task.Status = "timed out"
+		case err != nil:
+			task.Status = "failed"
+		default:
+			task.Status = "completed"
 		}
-
-		cancel() // Explicitly cancel the context at the end of each iteration
 		results <- task
 	}
 }
 
-func rateLimiter(rateLimit int, stop <-chan struct{}) <-chan struct{} {
+func rateLimiter(ctx context.Context, rateLimit int) <-chan struct{} {
+	// Without buffering:
+	// If workers are busy for 150 ms, they miss some ticks because the tokens <- struct{}{} will block.
+	// That effectively reduces throughput below 10/sec.
+
+	// With buffering:
+	// Tokens accumulate (up to rps in the buffer).
+	// When workers catch up, they can “burst” up to that buffer size in one go.
 	tokens := make(chan struct{}, rateLimit)
+	ticker := time.NewTicker(1 * time.Second / time.Duration(rateLimit))
 	go func() {
-		ticker := time.NewTicker(1 * time.Second / time.Duration(rateLimit))
 		defer ticker.Stop()
+		defer close(tokens)
 		for {
 			select {
 			case <-ticker.C:
-				// select {
-				// case tokens <- struct{}{}:
-				// default:
-				// }
-			case <-stop:
-				close(tokens)
+				// This is a non-blocking send.
+				// Without it: if the channel is full, the goroutine blocks on tokens <- struct{}{} → deadlock or leak if nobody’s consuming.
+				// With it: if the buffer is full, we just drop the token (so max burst size = buffer size).
+				// hence, if buffer is full, we will just run default case;
+				// That prevents the rate-limiter goroutine from ever stalling.
+				select {
+				case tokens <- struct{}{}:
+				default: // buffer full → drop token (keeps goroutine from blocking)
+				}
+			case <-ctx.Done():
 				return
 			}
 		}
@@ -114,11 +118,27 @@ func stocks() {
 	rateLimit := 10
 	workerCount := 5
 
+	// Root context + signal handling (single broadcast for shutdown)
+	rootCtx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// Handle CTRL+C for manual shutdown
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		<-sig
+		fmt.Println("\nShutdown signal received — finishing in-flight tasks, discarding queued ones...")
+		cancel()
+	}()
+
 	// Channels
-	taskQueue := make(chan StockTask, len(stockSymbols))
-	results := make(chan StockTask, len(stockSymbols))
-	stopRateLimiter := make(chan struct{})
-	rateTokens := rateLimiter(rateLimit, stopRateLimiter)
+	// producer: every 5s enqueue all symbols into requestQueue (no token here)
+	requestQueue := make(chan StockTask, 32)         // tasks waiting for rate-limit
+	taskQueue := make(chan StockTask, workerCount*2) // tasks ready for workers
+	results := make(chan StockTask, 256)
+
+	rateTokens := rateLimiter(rootCtx, rateLimit)
 
 	// WaitGroup to manage workers
 	var wg sync.WaitGroup
@@ -129,6 +149,12 @@ func stocks() {
 		go stockWorker(i, taskQueue, results, &wg)
 	}
 
+	// Wait for workers to finish processing tasks
+	go func() {
+		wg.Wait()
+		close(results)
+	}()
+
 	// Ticker for fetching stock prices periodically
 	ticker := time.NewTicker(interval)
 	defer ticker.Stop()
@@ -136,45 +162,67 @@ func stocks() {
 	// Timer for 30-second timeout
 	timeout := time.After(30 * time.Second)
 
-	// Handle CTRL+C for manual shutdown
-	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
-
-	// Goroutine to enqueue tasks
+	// Producer: enqueue one task per symbol every 5s (no rate-limit here)
 	go func() {
+		// Stop accepting new tasks in request queue
+		defer close(requestQueue)
+
 		for {
 			select {
 			case <-ticker.C:
 				for _, symbol := range stockSymbols {
 					select {
-					case <-timeout: // Stop after timeout
-						fmt.Println("\nTimeout reached! Stopping task queue.")
-						close(taskQueue) // Stop accepting new tasks
+					case <-rootCtx.Done():
 						return
-					case <-sig: // Stop on CTRL+C
-						fmt.Println("\nInterrupt received! Stopping task queue.")
-						close(taskQueue) // Stop accepting new tasks
-						return
-					case <-rateTokens: // Consume rate limiter tokens
-						taskQueue <- StockTask{Symbol: symbol, Status: "pending"}
+					case requestQueue <- StockTask{Symbol: symbol, Status: "pending"}:
 					}
 				}
 			case <-timeout: // Stop after timeout
-				fmt.Println("\nTimeout reached! Stopping task queue.")
-				close(taskQueue) // Stop accepting new tasks
+				fmt.Println("\nRun timer reached — closing request queue (no new tasks).")
 				return
-			case <-sig: // Stop on CTRL+C
-				fmt.Println("\nInterrupt received! Stopping task queue.")
-				close(taskQueue) // Stop accepting new tasks
+			case <-rootCtx.Done():
 				return
 			}
 		}
 	}()
 
-	// Wait for workers to finish processing tasks
+	wg.Add(1)
+	// Dispatcher: for each token, forward at most one queued task to workers.
+	// On shutdown (rootCtx.Done), drain requestQueue as "discarded", then close taskQueue.
 	go func() {
-		wg.Wait()
-		close(results)
+		defer wg.Done()
+		defer close(taskQueue)
+	loop:
+		for {
+			select {
+			case <-rootCtx.Done():
+				break loop
+			case _, ok := <-rateTokens:
+				if !ok {
+					break loop
+				}
+
+				// Got a token, now try to get a task.
+				select {
+				case task, ok := <-requestQueue:
+					if !ok {
+						// Producer is done, no more tasks will ever arrive.
+						break loop
+					}
+					taskQueue <- task
+				case <-rootCtx.Done():
+					// Shutdown signal received while waiting for a task.
+					break loop
+				}
+			}
+		}
+
+		// GUARANTEED CLEANUP: This code now runs AFTER the loop has exited.
+		fmt.Println("Dispatcher shutting down. Draining remaining requests...")
+		for task := range requestQueue {
+			task.Status = "discarded"
+			results <- task
+		}
 	}()
 
 	// Log final statuses
@@ -182,9 +230,6 @@ func stocks() {
 	for result := range results {
 		fmt.Printf("%s: %s\n", result.Symbol, result.Status)
 	}
-
-	// Stop the rate limiter
-	close(stopRateLimiter)
 
 	fmt.Println("System shutdown complete.")
 }
