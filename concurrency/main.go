@@ -1,17 +1,21 @@
 package main
 
 func main() {
+	crawler()
+	diningPhilosophers()
 	extendedOddEven()
+	fastPacedBidingWar()
 	fibbo()
 	fu_sliding_window_counter() // this is for array; do it same for unlimited random status
 	generatorReceiverWorkerPool()
 	generator_receiver()
 	numberDoubleWorkerPool()
 	oddEvenPrintMain()
-	pingPongWith1Channel()
 	pingPong()
+	pipeline()
 	producerConsumerRandomSum()
 	schedulerRateLimiting()
+	sensorDataAggregator()
 	stocks()
 	taskManager()
 	ticker()
