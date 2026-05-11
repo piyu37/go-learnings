@@ -29,6 +29,30 @@ func findCombinations(idx int, candidates []int, target int, currComb []int, res
 	}
 }
 
+func combinationSumDiffApproach(candidates []int, target int) [][]int {
+	result := make([][]int, 0)
+	calcSum(candidates, target, 0, []int{}, &result)
+
+	return result
+}
+
+func calcSum(candidates []int, target int, currIdx int, temp []int, result *[][]int) {
+	if target < 0 || currIdx >= len(candidates) {
+		return
+	}
+
+	if target == 0 {
+		arr := make([]int, len(temp))
+		copy(arr, temp)
+
+		*result = append(*result, arr)
+		return
+	}
+
+	calcSum(candidates, target-candidates[currIdx], currIdx, append(temp, candidates[currIdx]), result)
+	calcSum(candidates, target, currIdx+1, temp, result)
+}
+
 // https://leetcode.com/problems/combination-sum/description/?envType=study-plan-v2&envId=top-interview-150
 func combinationSumMain() {
 	candidates := []int{2, 3, 5}
@@ -40,4 +64,5 @@ func combinationSumMain() {
 	target = 6249
 
 	fmt.Println(combinationSum(candidates, target))
+	fmt.Println(combinationSumDiffApproach(candidates, target))
 }

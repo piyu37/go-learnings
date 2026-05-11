@@ -71,6 +71,25 @@ func isValidForPosition(value, row, col int, board [][]int) bool {
 	return true
 }
 
+// Another approach to check validity for position
+func isValidForPosition2(board [][]byte, row, col int, val int) bool {
+	for i := range board {
+		if board[i][col] == byte(val+'0') {
+			return false
+		}
+
+		if board[row][i] == byte(val+'0') {
+			return false
+		}
+
+		if board[3*(row/3)+i/3][3*(col/3)+i%3] == byte(val+'0') {
+			return false
+		}
+	}
+
+	return true
+}
+
 // https://github.com/lee-hen/Algoexpert/tree/master/hard/31_solve_sudoku
 func sudoku() {
 	board := [][]int{
