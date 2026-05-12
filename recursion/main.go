@@ -19,7 +19,7 @@ func main() {
 	goodNumber()
 	interweavingStringsCacheMain()
 	interweavingStringsMain()
-	// kthPermutationSequence()
+	kthPermutationSequence()
 	lowestCommonManager()
 	// mColoring()
 	mnemonicsRecur()
