@@ -21,7 +21,7 @@ func main() {
 	interweavingStringsMain()
 	kthPermutationSequence()
 	lowestCommonManager()
-	// mColoring()
+	mColoring()
 	mnemonicsRecur()
 	mnemonics()
 	// palindromePartitioning()
