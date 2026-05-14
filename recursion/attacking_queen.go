@@ -128,7 +128,7 @@ func solveNQueens(n int) [][]string {
 	restr := make([][]string, 0)
 
 	for _, combinations := range result {
-		arr := make([]string, n, n)
+		arr := make([]string, n)
 		for i := range n {
 			comb := combinations[i]
 			for j := range n {
