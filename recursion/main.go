@@ -24,7 +24,7 @@ func main() {
 	mColoring()
 	mnemonicsRecur()
 	mnemonics()
-	// palindromePartitioning()
+	palindromePartitioning()
 	permutation()
 	powersetRecurMain()
 	powersetMain()
