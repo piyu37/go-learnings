@@ -28,7 +28,7 @@ func main() {
 	permutation()
 	powersetRecurMain()
 	productSumMain()
-	// ratInMazeMain()
+	ratInMazeMain()
 	staircaseTraversalIterMain()
 	staircaseTraversalMain()
 	// subsequenceSumEqualsK()
