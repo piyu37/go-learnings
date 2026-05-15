@@ -27,7 +27,6 @@ func main() {
 	palindromePartitioning()
 	permutation()
 	powersetRecurMain()
-	powersetMain()
 	productSumMain()
 	// ratInMazeMain()
 	staircaseTraversalIterMain()
