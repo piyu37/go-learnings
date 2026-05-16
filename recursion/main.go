@@ -31,9 +31,9 @@ func main() {
 	ratInMazeMain()
 	staircaseTraversalIterMain()
 	staircaseTraversalMain()
-	// subsequenceSumEqualsK()
-	// subsetSumsMain()
-	// subsetsMain()
+	subsequenceSumEqualsK()
+	subsetSumsMain()
+	subsetsMain()
 	sudoku()
 	wordSearch()
 }

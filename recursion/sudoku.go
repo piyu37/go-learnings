@@ -1,7 +1,54 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
+/*
+ * COMPLEXITY ANALYSIS
+ *
+ * TIME COMPLEXITY: O(N * 9^M)
+ * ----------------------------
+ * Where:
+ * - M = The number of empty cells on the board (at most 81).
+ * - N = The dimension of the board (N=9 for a standard Sudoku).
+ *
+ * (Note: Because a standard Sudoku board is strictly fixed at 9x9, theoretically
+ * the time complexity is technically O(1). However, in algorithmic interviews,
+ * it is standard to express it in terms of M empty cells).
+ *
+ * The total time is calculated by: (Number of states explored) * (Work done per state)
+ *
+ * 1. Number of States -> O(9^M)
+ *    - The algorithm uses classic Backtracking. For every empty cell, it attempts
+ *      to place up to 9 different digits.
+ *    - This creates a decision tree with a maximum branching factor of 9 and a
+ *      maximum depth of M.
+ *    - In the absolute mathematical worst case, this generates up to 9^M states.
+ *      (In reality, the tight constraints of Sudoku rules prune the vast majority
+ *      of these branches very early, making the actual execution much faster).
+ *
+ * 2. Work Per State -> O(N)
+ *    - At each recursive step, `isValidForPosition()` checks the row, the column,
+ *      and the 3x3 subgrid.
+ *    - `slices.Contains(board[row], value)` takes O(N) time.
+ *    - Iterating through the column takes O(N) time.
+ *    - Iterating through the 3x3 subgrid takes O(N) time.
+ *    - Therefore, the validation checks take O(N) time per state.
+ *
+ * Total Time = O(9^M) * O(N) = O(N * 9^M)
+ *
+ * SPACE COMPLEXITY: O(M)
+ * ----------------------------
+ * 1. Recursion Stack: The call stack goes exactly 1 level deep for every empty
+ *    cell on the board. In the worst case (an entirely empty board), the maximum
+ *    depth is M (or 81).
+ * 2. Auxiliary Space: The board is modified perfectly in-place. You do not create
+ *    any new arrays or slices during the recursion.
+ *
+ * Total Space = Stack O(M) + Extra Space O(1) = O(M)
+ */
 func SolveSudoku(board [][]int) [][]int {
 	solvePartialSudoku(0, 0, board)
 
@@ -44,10 +91,8 @@ func tryDigitsAtPosition(row, col int, board [][]int) bool {
 }
 
 func isValidForPosition(value, row, col int, board [][]int) bool {
-	for _, v := range board[row] {
-		if v == value {
-			return false
-		}
+	if slices.Contains(board[row], value) {
+		return false
 	}
 
 	for _, r := range board {
@@ -71,7 +116,7 @@ func isValidForPosition(value, row, col int, board [][]int) bool {
 	return true
 }
 
-// Another approach to check validity for position
+// Another approach to check validity for position better than isValidForPosition
 func isValidForPosition2(board [][]byte, row, col int, val int) bool {
 	for i := range board {
 		if board[i][col] == byte(val+'0') {
