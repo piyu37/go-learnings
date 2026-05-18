@@ -6,32 +6,30 @@ import (
 	"sort"
 )
 
+// Chronological Ordering Approach
 func findMinChairs(timestamps [][]int) int {
-	queue := []int{}
 	minChairs := 0
-	count := 0
 
-	sort.Slice(timestamps, func(i, j int) bool {
-		return timestamps[i][1] < timestamps[j][1]
-	})
+	startIntervals := make([]int, len(timestamps))
+	endIntervals := make([]int, len(timestamps))
 
 	for i := range timestamps {
-		timestamp := timestamps[i]
+		startIntervals = append(startIntervals, timestamps[i][0])
+		endIntervals = append(endIntervals, timestamps[i][1])
+	}
 
-		for len(queue) > 0 {
-			if queue[0] <= timestamp[0] {
-				queue = queue[1:]
-				count--
-			} else {
-				break
-			}
+	sort.Ints(startIntervals)
+	sort.Ints(endIntervals)
+
+	i, j := 0, 0
+	for i < len(startIntervals) {
+		if startIntervals[i] < endIntervals[j] {
+			minChairs++
+		} else {
+			j++
 		}
 
-		count++
-		queue = append(queue, timestamp[1])
-		if count > minChairs {
-			minChairs = count
-		}
+		i++
 	}
 
 	return minChairs
@@ -64,38 +62,24 @@ func (h *intHeap) Pop() any {
 
 // just to check how much I remember priority queue; above solution is fine
 func findMinChairs2(timestamps [][]int) int {
-	queue := []int{}
-	minChairs := 0
-	count := 0
-	endTime := &intHeap{}
-	for i := range timestamps {
+	sort.Slice(timestamps, func(i, j int) bool {
+		return timestamps[i][0] < timestamps[j][0]
+	})
+
+	freeChairs := &intHeap{}
+	heap.Push(freeChairs, timestamps[0][1])
+
+	for i := 1; i < len(timestamps); i++ {
 		timestamp := timestamps[i]
 
-		*endTime = append(*endTime, timestamp[1])
-	}
-
-	heap.Init(endTime)
-
-	for i := range timestamps {
-		timestamp := timestamps[i]
-
-		for len(queue) > 0 {
-			if queue[0] <= timestamp[0] {
-				queue = queue[1:]
-				count--
-			} else {
-				break
-			}
+		if (*freeChairs)[0] <= timestamp[0] {
+			heap.Pop(freeChairs)
 		}
 
-		count++
-		queue = append(queue, timestamp[1])
-		if count > minChairs {
-			minChairs = count
-		}
+		heap.Push(freeChairs, timestamp[1])
 	}
 
-	return minChairs
+	return freeChairs.Len()
 }
 
 // Find min no. of chairs needed for employees
@@ -104,6 +88,11 @@ func findMinChairs2(timestamps [][]int) int {
 // if arr[0] < min; count = 2, 1
 func minChairs() {
 	timestamps := [][]int{{900, 1230}, {1030, 1200}, {1200, 1230}, {1230, 1400}, {1400, 1800}, {1900, 2100}}
+	fmt.Println(findMinChairs(timestamps))
+	fmt.Println(findMinChairs2(timestamps))
+
+	timestamps = [][]int{{600, 1700}, {800, 900}, {1100, 1200}, {600, 900}}
+
 	fmt.Println(findMinChairs(timestamps))
 	fmt.Println(findMinChairs2(timestamps))
 }

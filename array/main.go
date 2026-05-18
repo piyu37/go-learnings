@@ -10,7 +10,7 @@ func main() {
 	findClosestValueMain()
 	flattenend()
 	gameLife()
-	// getMinConnectionCostMain()
+	getMinConnectionCostMain()
 	getTheGroupsMain()
 	groupAnagramsMain()
 	hIndexMain()
