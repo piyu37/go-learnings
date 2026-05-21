@@ -78,6 +78,50 @@ func findKDistanceNodes(tree *BinaryTreeWithParent, counter int, result *[]int, 
 	findKDistanceNodes(tree.Right, counter+1, result, k)
 }
 
+func distanceK(root *TreeNode, target *TreeNode, k int) []int {
+	graph := make(map[int][]int)
+
+	buildGraph(root, nil, graph)
+
+	visited := make(map[int]bool)
+	visited[target.Val] = true
+
+	result := make([]int, 0)
+
+	dfsTree(graph, target.Val, 0, k, visited, &result)
+
+	return result
+}
+
+func buildGraph(curr, parent *TreeNode, graph map[int][]int) {
+	if curr != nil && parent != nil {
+		graph[curr.Val] = append(graph[curr.Val], parent.Val)
+		graph[parent.Val] = append(graph[parent.Val], curr.Val)
+	}
+
+	if curr.Left != nil {
+		buildGraph(curr.Left, curr, graph)
+	}
+
+	if curr.Right != nil {
+		buildGraph(curr.Right, curr, graph)
+	}
+}
+
+func dfsTree(graph map[int][]int, target, distance, k int, visited map[int]bool, result *[]int) {
+	if distance == k {
+		*result = append(*result, target)
+		return
+	}
+
+	for _, n := range graph[target] {
+		if !visited[n] {
+			visited[n] = true
+			dfsTree(graph, n, distance+1, k, visited, result)
+		}
+	}
+}
+
 // https://github.com/lee-hen/Algoexpert/tree/master/hard/09_find_nodes_distance_k
 func findNodeDistanceKMain() {
 	target := &BinaryTreeWithParent{
@@ -108,4 +152,22 @@ func findNodeDistanceKMain() {
 	}
 
 	fmt.Println(FindNodesDistanceK(tree, target.Value, 2))
+
+	tree1 := &TreeNode{
+		Val: 3,
+		Left: &TreeNode{
+			Val: 9,
+		},
+		Right: &TreeNode{
+			Val: 20,
+			Left: &TreeNode{
+				Val: 15,
+			},
+			Right: &TreeNode{
+				Val: 17,
+			},
+		},
+	}
+
+	fmt.Println(distanceK(tree1, tree1.Left, 2))
 }
