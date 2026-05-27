@@ -2,9 +2,6 @@ package main
 
 import "fmt"
 
-// Do not edit the class below except for the insertKeyValuePair,
-// getValueFromKey, and getMostRecentKey methods. Feel free
-// to add new properties and methods to the class.
 type Node struct {
 	key        string
 	value      int
@@ -15,114 +12,107 @@ type LRUCache struct {
 	maxSize    int
 	head, tail *Node
 	llMap      map[string]*Node
-	// Add fields here.
 }
 
 func NewLRUCache(size int) *LRUCache {
+	if size <= 0 {
+		panic("LRUCache size must be > 0")
+	}
 	return &LRUCache{
 		maxSize: size,
+		llMap:   make(map[string]*Node, size),
 	}
 }
 
-func (cache *LRUCache) deleteNode(node *Node, key string) {
-	if cache.head == cache.tail {
-		delete(cache.llMap, key)
-		cache.head = nil
-		cache.tail = nil
-		node = nil
-		return
-	}
+// --- doubly-linked list helpers ---
 
-	if node == cache.head {
-		node.next.prev = nil
-		cache.head = node.next
-		delete(cache.llMap, key)
-		node = nil
-		return
-	}
+func (c *LRUCache) addToFront(n *Node) {
+	n.prev = nil
+	n.next = c.head
 
-	if node == cache.tail {
-		cache.tail = node.prev
-		node.prev.next = nil
-		delete(cache.llMap, key)
-		node = nil
-		return
+	if c.head != nil {
+		c.head.prev = n
 	}
+	c.head = n
 
-	node.prev.next = node.next
-	node.next.prev = node.prev
-	delete(cache.llMap, key)
-	node = nil
+	if c.tail == nil {
+		// first element
+		c.tail = n
+	}
 }
 
-func (cache *LRUCache) InsertNode(key string, value int) {
-	if len(cache.llMap) == 0 {
-		node := &Node{
-			key:   key,
-			value: value,
-		}
-
-		cache.llMap = map[string]*Node{}
-
-		cache.llMap[key] = node
-		cache.head = node
-		cache.tail = node
-
+func (c *LRUCache) removeNode(n *Node) {
+	if n == nil {
 		return
 	}
 
-	node := &Node{
-		key:   key,
-		value: value,
-	}
-
-	node.next = cache.head
-	cache.head.prev = node
-	cache.head = node
-	cache.llMap[key] = node
-}
-
-func (cache *LRUCache) InsertKeyValuePair(key string, value int) {
-	if n, exist := cache.llMap[key]; exist {
-		// delete node and add at start
-		// update map
-		cache.deleteNode(n, key)
-		cache.InsertNode(key, value)
-
+	if n.prev != nil {
+		n.prev.next = n.next
 	} else {
-		if len(cache.llMap) == cache.maxSize {
-			// delete node and add at start
-			// update map
-			cache.deleteNode(cache.tail, cache.tail.key)
-			cache.InsertNode(key, value)
-		} else {
-			// add node at start
-			// update map
-			cache.InsertNode(key, value)
-		}
+		// removing head
+		c.head = n.next
 	}
+
+	if n.next != nil {
+		n.next.prev = n.prev
+	} else {
+		// removing tail
+		c.tail = n.prev
+	}
+
+	n.prev = nil
+	n.next = nil
+}
+
+func (c *LRUCache) moveToFront(n *Node) {
+	if n == nil || n == c.head {
+		return
+	}
+	c.removeNode(n)
+	c.addToFront(n)
+}
+
+// --- required API methods ---
+
+func (c *LRUCache) InsertKeyValuePair(key string, value int) {
+	if node, ok := c.llMap[key]; ok {
+		// update existing value and move to front
+		node.value = value
+		c.moveToFront(node)
+		return
+	}
+
+	// new key
+	if len(c.llMap) == c.maxSize {
+		// evict least recently used (tail)
+		lru := c.tail
+		delete(c.llMap, lru.key)
+		c.removeNode(lru)
+	}
+
+	newNode := &Node{key: key, value: value}
+	c.addToFront(newNode)
+	c.llMap[key] = newNode
 }
 
 // The second return value indicates whether or not the key was found
 // in the cache.
-func (cache *LRUCache) GetValueFromKey(key string) (int, bool) {
-	v, ok := cache.llMap[key]
+func (c *LRUCache) GetValueFromKey(key string) (int, bool) {
+	n, ok := c.llMap[key]
 	if !ok {
 		return -1, false
 	}
-
-	cache.InsertKeyValuePair(key, v.value)
-
-	return v.value, true
+	// mark as most recently used
+	c.moveToFront(n)
+	return n.value, true
 }
 
 // The second return value is false if the cache is empty.
-func (cache *LRUCache) GetMostRecentKey() (string, bool) {
-	if len(cache.llMap) == 0 {
+func (c *LRUCache) GetMostRecentKey() (string, bool) {
+	if c.head == nil {
 		return "", false
 	}
-
-	return cache.head.key, true
+	return c.head.key, true
 }
 
 func lruCache() {
