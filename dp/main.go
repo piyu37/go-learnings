@@ -10,6 +10,7 @@ func main() {
 	longestIncreasingSubsequence()
 	longestPalindromString()
 	maxEnergyMain()
+	maxPathSumMain()
 	maxSeparation()
 	maxSubsetSumNoAdjacentMain()
 	maxSumIncreasingSubsequence()

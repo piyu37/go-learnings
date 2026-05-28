@@ -31,14 +31,6 @@ func MaxSubsetSumNoAdjacent(arr []int) int {
 	return result
 }
 
-func max(v1, v2 int) int {
-	if v1 > v2 {
-		return v1
-	}
-
-	return v2
-}
-
 // https://github.com/lee-hen/Algoexpert/tree/master/medium/13_max_subset_sumno_adjacent
 func maxSubsetSumNoAdjacentMain() {
 	arr := []int{75, 105, 120, 75, 90, 135}

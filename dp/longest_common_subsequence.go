@@ -39,9 +39,38 @@ func longestCommonSubsequence(str1, str2 string) []string {
 	return longestSubsequence
 }
 
+func longestCommonSubsequence2(str1, str2 string) int {
+	memoization := make(map[string]int)
+
+	return lcs(len(str1)-1, len(str2)-1, str1, str2, memoization)
+}
+
+func lcs(i, j int, str1, str2 string, memoization map[string]int) int {
+	if i < 0 || j < 0 {
+		return 0
+	}
+
+	if v, ok := memoization[fmt.Sprintf("%d:%d", i, j)]; ok {
+		return v
+	}
+
+	var result int
+	if str1[i] == str2[j] {
+		result = 1 + lcs(i-1, j-1, str1, str2, memoization)
+	} else {
+		result = max(lcs(i-1, j, str1, str2, memoization), lcs(i, j-1, str1, str2, memoization))
+	}
+
+	memoization[fmt.Sprintf("%d:%d", i, j)] = result
+
+	return result
+}
+
 // https://github.com/lee-hen/Algoexpert/tree/master/hard/11_longest_common_subsequence
 func longestCommonSubsequenceMain() {
 	str1 := "CCCDDEGDHAGKGLWAJWKJAWGKGWJAKLGGWAFWLFFWAGJWKAGTUV"
 	str2 := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	fmt.Println(longestCommonSubsequence(str1, str2))
+
+	fmt.Println(longestCommonSubsequence2(str1, str2))
 }
