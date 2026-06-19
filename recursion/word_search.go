@@ -2,8 +2,52 @@ package main
 
 import "fmt"
 
+/*
+ * COMPLEXITY ANALYSIS
+ *
+ * TIME COMPLEXITY: O(M * N * 3^L)
+ * ----------------------------
+ * Where M is the number of rows in the board, N is the number of columns,
+ * and L is the length of the string `word`.
+ *
+ * The total time is calculated by: (Number of states explored) * (Work done per state)
+ *
+ * 1. Number of States -> O(M * N * 3^L)
+ * - The algorithm iterates through every cell in the M x N grid to find a
+ * potential starting character. This gives us the initial M * N factor.
+ * - From each valid starting cell, the algorithm triggers a DFS backtracking
+ * search. The recursion tree for this search goes at most L levels deep.
+ * - At the very first character, the algorithm can branch in up to 4 directions.
+ * However, for every subsequent character, it branches in at most 3 directions
+ * (because the cell it just came from is marked with '#' and is ignored).
+ * - This gives an upper bound of 3^L states explored during a single DFS run.
+ *
+ * 2. Work Per State -> O(1)
+ * - Inside the recursive `checkWordExist` function, the algorithm performs
+ * constant-time operations: character comparisons, in-place board mutations
+ * (`board[...][...] = '#'`), and calling `getNeighbors`.
+ * - The `getNeighbors` function performs exactly 4 boundary checks and allocates
+ * a tiny slice of maximum size 4. This is bounded, O(1) constant work.
+ *
+ * Total Time = O(M * N) starting points * O(3^L) DFS states * O(1) work = O(M * N * 3^L)
+ *
+ * SPACE COMPLEXITY: O(L)
+ * ----------------------------
+ * Where L is the length of the string `word`.
+ *
+ * 1. Recursion Stack: In the worst-case scenario (where a long matching prefix
+ * is found), the recursion successfully matches characters one by one. The call
+ * stack will go exactly L levels deep before returning. This consumes O(L) space.
+ * 2. Auxiliary Space: A common trap in this problem is allocating a separate
+ * M x N "visited" matrix, which would take O(M * N) space. However, this
+ * algorithm cleverly mutates the original `board` in-place using a `#` marker.
+ * Because no large data structures are created (only the small, 4-element
+ * slices inside `getNeighbors`), the auxiliary memory usage is O(1).
+ *
+ * Total Space = Stack O(L) + Auxiliary O(1) = O(L)
+ */
 func exist(board [][]byte, word string) bool {
-	for i := 0; i < len(board); i++ {
+	for i := range board {
 		for j := 0; j < len(board[0]); j++ {
 			char := board[i][j]
 
