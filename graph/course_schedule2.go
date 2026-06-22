@@ -75,4 +75,74 @@ func courseSchedule2() {
 	prequisites = [][]int{{3, 2}, {1, 0}, {2, 1}}
 
 	fmt.Println(findOrder(numCourse, prequisites))
+
+	numCourse = 4
+	prequisites = [][]int{{1, 0}, {2, 3}, {3, 1}, {0, 3}}
+
+	fmt.Println(findOrder(numCourse, prequisites))
+
+	numCourse = 4
+	prequisites = [][]int{{1, 0}, {3, 1}, {3, 2}}
+
+	fmt.Println(findOrder2(numCourse, prequisites))
+
+	numCourse = 4
+	prequisites = [][]int{{3, 2}, {1, 0}, {2, 1}}
+
+	fmt.Println(findOrder2(numCourse, prequisites))
+
+	numCourse = 4
+	prequisites = [][]int{{1, 0}, {2, 3}, {3, 1}, {0, 3}}
+
+	fmt.Println(findOrder2(numCourse, prequisites))
+}
+
+func findOrder2(numCourses int, prerequisites [][]int) []int {
+	indegree := make([]int, numCourses)
+
+	courseGraph := make(map[int][]int)
+
+	for i := range prerequisites {
+		edge := prerequisites[i]
+
+		courseGraph[edge[1]] = append(courseGraph[edge[1]], edge[0])
+	}
+
+	for _, adj := range courseGraph {
+		for _, n := range adj {
+			indegree[n]++
+		}
+	}
+
+	queue := make([]int, 0)
+	for i := range indegree {
+		if indegree[i] == 0 {
+			queue = append(queue, i)
+		}
+	}
+
+	result := make([]int, 0)
+
+	for len(queue) != 0 {
+		node := queue[0]
+
+		queue = queue[1:]
+
+		result = append(result, node)
+
+		for _, c := range courseGraph[node] {
+			indegree[c]--
+
+			if indegree[c] == 0 {
+				queue = append(queue, c)
+			}
+		}
+	}
+
+	if len(result) != numCourses {
+		return []int{}
+	}
+
+	return result
+
 }

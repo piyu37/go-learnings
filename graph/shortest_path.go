@@ -6,7 +6,7 @@ import (
 )
 
 // finds shortest path between 2 nodes of a graph using BFS
-func bfsShortestPath(graph map[string][]string, start, goal string) interface{} {
+func bfsShortestPathWithContainerList(graph map[string][]string, start, goal string) any {
 	// keep track of explored nodes
 	explored := make(map[string]bool)
 	// keep track of all the paths to be checked
@@ -48,6 +48,56 @@ func bfsShortestPath(graph map[string][]string, start, goal string) interface{} 
 	return "So sorry, but a connecting path doesn't exist :("
 }
 
+// finds shortest path between 2 nodes of a graph using BFS
+func bfsShortestPath(graph map[string][]string, start, goal string) any {
+	// keep track of explored nodes
+	explored := make(map[string]bool)
+
+	queue := [][]string{{start}}
+
+	// return path if start is goal
+	if start == goal {
+		return "That was easy! Start = goal"
+	}
+
+	// keeps looping until all possible paths have been checked
+	for len(queue) > 0 {
+
+		// pop the first path from the queue
+		path := queue[0]
+		queue = queue[1:]
+
+		// get the last node from the path
+		node := path[len(path)-1]
+
+		if !explored[node] {
+
+			neighbours := graph[node]
+
+			// go through all neighbour nodes, construct a new path and push it into the queue
+			for _, neighbour := range neighbours {
+				newPath := append([]string(nil), path...) // copy
+				newPath = append(newPath, neighbour)
+
+				// ---- PUSH BACK TO SLICE QUEUE ----
+				queue = append(queue, newPath)
+				// -----------------------------------
+
+				// return path if neighbour is goal
+				if neighbour == goal {
+					return newPath
+				}
+			}
+
+			// mark node as explored
+			explored[node] = true
+		}
+	}
+
+	// in case there's no path between the 2 nodes
+	return "So sorry, but a connecting path doesn't exist :("
+}
+
 func addEdge(graph map[string][]string, u, v string) {
 	graph[u] = append(graph[u], v)
 }
@@ -70,5 +120,8 @@ func shortestPath() {
 	addEdge(graph, "E", "A")
 
 	result := bfsShortestPath(graph, "G", "D") // returns ["G", "C", "A", "D"]
+	fmt.Println(result)
+
+	result = bfsShortestPathWithContainerList(graph, "G", "D") // returns ["G", "C", "A", "D"]
 	fmt.Println(result)
 }

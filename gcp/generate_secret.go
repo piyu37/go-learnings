@@ -42,7 +42,8 @@ func createKey(w io.Writer, serviceAccountEmail string) (*iam.ServiceAccountKey,
 }
 
 // Before running this: run gcloud auth application-default login
-func main() {
+// GenerateSecret generates service account key of corresponding service account in GCP.
+func generateSecret() {
 	f, err := os.Create("gcp-credentials.json")
 	if err != nil {
 		fmt.Printf("os.Create: %v\n", err)
