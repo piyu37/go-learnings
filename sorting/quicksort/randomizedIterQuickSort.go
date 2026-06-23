@@ -2,32 +2,6 @@ package main
 
 import "fmt"
 
-// func partition(array []int, low, high int) int {
-// 	s := rand.NewSource(time.Now().Unix())
-// 	r := rand.New(s)
-// 	p := low + r.Intn(high-low+1)
-
-// 	array[high], array[p] = array[p], array[high]
-
-// 	i := low - 1
-
-// 	p = array[high]
-
-// 	for j := low; j < high; j++ {
-// 		if array[j] <= p {
-// 			i++
-
-// 			array[j], array[i] = array[i], array[j]
-// 		}
-// 	}
-
-// 	i++
-
-// 	array[i], array[high] = p, array[i]
-
-// 	return i
-// }
-
 func randomizedIterQuickSort(array []int) []int {
 	low := 0
 

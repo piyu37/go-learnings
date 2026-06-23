@@ -7,4 +7,5 @@ func main() {
 	kthLargest()
 	mstPrimmsMain()
 	totalCostHireKWorkers()
+	topKFrequentElements()
 }
