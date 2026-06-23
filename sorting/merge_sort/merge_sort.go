@@ -3,16 +3,17 @@ package main
 import "fmt"
 
 func MergeSort(array []int) []int {
-	arr := applyMergeSort(array, 0, len(array))
+	if len(array) == 0 {
+		return array
+	}
+
+	arr := applyMergeSort(array, 0, len(array)-1)
+
 	return arr
 }
 
 func applyMergeSort(arr []int, start, end int) []int {
-	if start == end {
-		if start >= len(arr) {
-			return []int{}
-		}
-
+	if start >= end {
 		return []int{arr[start]}
 	}
 
@@ -24,10 +25,6 @@ func applyMergeSort(arr []int, start, end int) []int {
 	j := 0
 	leftSortedArrLen := len(leftSortedArr)
 	rightSortedArrLen := len(rightSortedArr)
-	maxLen := leftSortedArrLen
-	if rightSortedArrLen > maxLen {
-		maxLen = rightSortedArrLen
-	}
 
 	result := make([]int, 0)
 

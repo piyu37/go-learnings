@@ -4,4 +4,5 @@ func main() {
 	iterQuickSort()
 	randomizedIterQuickSortMain()
 	randomizedRecurQuickSort()
+	recursiveQuickSortMain()
 }

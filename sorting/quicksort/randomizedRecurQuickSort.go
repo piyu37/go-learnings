@@ -3,22 +3,18 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"time"
 )
 
 func partition(array []int, start, end int) int {
-	s := rand.NewSource(time.Now().Unix())
-	r := rand.New(s)
-	p := start + r.Intn(end-start+1)
+	p := start + rand.Intn(end-start+1)
+	pVal := array[p]
 
 	array[p], array[end] = array[end], array[p]
 
 	i := start - 1
 
-	p = array[end]
-
 	for j := start; j < end; j++ {
-		if array[j] <= p {
+		if array[j] <= pVal {
 			i++
 
 			array[i], array[j] = array[j], array[i]
