@@ -9,6 +9,7 @@ func main() {
 	fu_sliding_window_counter() // this is for array; do it same for unlimited random status
 	generatorReceiverWorkerPool()
 	generator_receiver()
+	hitCounter()
 	numberDoubleWorkerPool()
 	oddEvenPrintMain()
 	pingPong()
