@@ -1,0 +1,38 @@
+{
+ "created_at": "2026-08-30 10:00:00",
+ "customer_email": "john.doe@example.com",
+ "customer_name": "John Doe",
+ "is_gift_wrapped": true,
+ "line_items": [
+  {
+   "product_id": "PROD-001",
+   "product_name": "Wireless Mouse",
+   "quantity": 2,
+   "unit_price": {
+    "cent_amount": 1999,
+    "currency_code": "USD"
+   }
+  },
+  {
+   "product_id": "PROD-002",
+   "product_name": "Mechanical Keyboard",
+   "quantity": 1,
+   "unit_price": {
+    "cent_amount": 3000,
+    "currency_code": "USD"
+   }
+  }
+ ],
+ "order_id": "ORD-12345",
+ "shipping_address": {
+  "city_name": "San Francisco",
+  "country_code": "US",
+  "postal_code": "94105",
+  "street_name": "Main Street",
+  "street_number": "42"
+ },
+ "total_price": {
+  "cent_amount": 4999,
+  "currency_code": "USD"
+ }
+}
