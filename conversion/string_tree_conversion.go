@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"log"
+	"strings"
 )
 
 type node struct {
@@ -23,7 +24,7 @@ func parseChildren(v string, n *node) {
 		return
 	}
 
-	name := ""
+	var name strings.Builder
 	i := 0
 	// getting name(parent) string from the string
 	if v[i] != '[' {
@@ -32,11 +33,11 @@ func parseChildren(v string, n *node) {
 				break
 			}
 
-			name += string(v[i])
+			name.WriteString(string(v[i]))
 		}
 	}
 
-	n.Name = name
+	n.Name = name.String()
 
 	arr := []string{}
 	k := i + 1
@@ -80,6 +81,7 @@ var examples = []string{
 	"[a[aa[aaa],ab,ac],b,c[ca,cb,cc[cca]]]",
 }
 
+// string_tree_conversion parses each bracket-notation example string into a node tree and logs it as JSON.
 func string_tree_conversion() {
 	for i, example := range examples {
 		result, err := parse(example)
