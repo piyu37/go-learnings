@@ -1,6 +1,7 @@
 package main
 
 func main() {
+	atomsWeightAgoda()
 	balancedBracketsMain()
 	evaluateRPN()
 	largestBuilding()
@@ -8,6 +9,7 @@ func main() {
 	minMaxStackMain()
 	nextGreaterElementMain()
 	nextGreaterElement2()
+	noOfAtomsMain()
 	shortenPathMain()
 	sortStackMain()
 	trappingRainWater()

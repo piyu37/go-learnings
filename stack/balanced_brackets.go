@@ -13,21 +13,22 @@ func BalancedBrackets(s string) bool {
 			stack = append(stack, str)
 			stackLen++
 		} else if stackLen > 0 {
-			if str == ")" {
+			switch str {
+			case ")":
 				if stack[stackLen-1] == "(" {
 					stack = stack[:stackLen-1]
 					stackLen--
 				} else {
 					return false
 				}
-			} else if str == "]" {
+			case "]":
 				if stack[stackLen-1] == "[" {
 					stack = stack[:stackLen-1]
 					stackLen--
 				} else {
 					return false
 				}
-			} else {
+			default:
 				if stack[stackLen-1] == "{" {
 					stack = stack[:stackLen-1]
 					stackLen--
