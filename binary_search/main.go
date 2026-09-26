@@ -7,5 +7,6 @@ func main() {
 	minRotatedArrSearch()
 	rotatedSortedArrSearch()
 	searchMatrixMain()
+	shipWithinDaysMain()
 	timeBasedKeyValueStore()
 }

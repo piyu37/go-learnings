@@ -38,8 +38,23 @@ func climbStairs2(n int) int {
 	return a + b
 }
 
+func climbStairs3(n int) int {
+	if n == 1 {
+		return 1
+	}
+	first := 1
+	second := 2
+	for i := 3; i <= n; i++ {
+		third := first + second
+		first = second
+		second = third
+	}
+	return second
+}
+
 // https://leetcode.com/problems/climbing-stairs/description/?envType=study-plan-v2&envId=top-interview-150
 func climbingStairsMain() {
 	fmt.Println(climbStairs(3))
 	fmt.Println(climbStairs2(3))
+	fmt.Println(climbStairs3(3))
 }
