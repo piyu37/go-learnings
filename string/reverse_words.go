@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func reverseWords(s string) string {
 	result := ""
@@ -27,7 +30,17 @@ func reverseWords(s string) string {
 	return result
 }
 
+func reverseWordsUsingInbuilt(s string) string {
+	words := strings.Fields(s) // splits on whitespace, drops empty strings, so leading/trailing/multiple spaces are handled for free
+	for i, j := 0, len(words)-1; i < j; i, j = i+1, j-1 {
+		words[i], words[j] = words[j], words[i]
+	}
+	return strings.Join(words, " ")
+}
+
+// https://leetcode.com/problems/reverse-words-in-a-string/description/
 func reverseWordsMain() {
 	str := "   the sky is blue    "
 	fmt.Println(reverseWords(str))
+	fmt.Println(reverseWordsUsingInbuilt(str))
 }
