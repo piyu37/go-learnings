@@ -23,6 +23,8 @@ func main() {
 	longestConsecutiveSequence()
 	longestContinuousSubarray()
 	longestSubArraySumKMain()
+	maxChunksToSortedMain()
+	maxChunksToSorted2Main()
 	maxSubarrayKadane()
 	mergeMain()
 	minChairs()

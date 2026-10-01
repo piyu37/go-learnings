@@ -14,8 +14,8 @@ func findMinChairs(timestamps [][]int) int {
 	endIntervals := make([]int, len(timestamps))
 
 	for i := range timestamps {
-		startIntervals = append(startIntervals, timestamps[i][0])
-		endIntervals = append(endIntervals, timestamps[i][1])
+		startIntervals[i] = timestamps[i][0]
+		endIntervals[i] = timestamps[i][1]
 	}
 
 	sort.Ints(startIntervals)
@@ -84,8 +84,11 @@ func findMinChairs2(timestamps [][]int) int {
 
 // Find min no. of chairs needed for employees
 // timestamps [0900, 1230] [1000, 1200] [1210, 1230] [1230 1400] [1400 1700]
-// min = 1200; stack = 1200, 1230,
-// if arr[0] < min; count = 2, 1
+
+// Similar kind of problem in diff words:
+// the maximum number of intervals that overlap at any single point.
+// https://leetcode.com/problems/meeting-rooms-ii/description/
+// https://www.hack2hire.com/question-bank/companies/amazon/coding-questions/68eda9b25abdefad4f6693bd/practice
 func minChairs() {
 	timestamps := [][]int{{900, 1230}, {1030, 1200}, {1200, 1230}, {1230, 1400}, {1400, 1800}, {1900, 2100}}
 	fmt.Println(findMinChairs(timestamps))
@@ -95,4 +98,9 @@ func minChairs() {
 
 	fmt.Println(findMinChairs(timestamps))
 	fmt.Println(findMinChairs2(timestamps))
+
+	// 1,4 2,3 3,4 5,6
+	timestamps = [][]int{{1, 4}, {2, 3}, {3, 4}, {5, 10}, {6, 7}, {7, 10}, {9, 10}}
+
+	fmt.Println(findMinChairs(timestamps))
 }
