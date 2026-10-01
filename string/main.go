@@ -3,7 +3,7 @@ package main
 func main() {
 	basicCalculator()
 	generatePath()
-	sortStringByLetter()
+	generateRandomPasswords()
 	isSubsequenceMain()
 	kSizeReverseLexicographicallySmaller()
 	longestNonRepeatingSubstring()
@@ -14,6 +14,7 @@ func main() {
 	prefixSuffix()
 	reverseWordsMain()
 	skillikzCreatePalindrome()
+	sortStringByLetter()
 	stringToIntMain()
-	generateRandomPasswords()
+	validWordAbbreviationMain()
 }
