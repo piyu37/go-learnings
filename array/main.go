@@ -49,6 +49,7 @@ func main() {
 	sort012Main()
 	sortedMatrixSearch()
 	spiralMatrix()
+	subarrayXORMain()
 	stockMaxProfit()
 	subarraySumEqualsK()
 	sunset()

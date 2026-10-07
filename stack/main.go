@@ -3,6 +3,8 @@ package main
 func main() {
 	atomsWeightAgoda()
 	balancedBracketsMain()
+	costOfTowerConnectionMain()
+	createStackFromLL()
 	evaluateRPN()
 	largestBuilding()
 	largestRectangleAreaMain()
@@ -13,5 +15,4 @@ func main() {
 	shortenPathMain()
 	sortStackMain()
 	trappingRainWater()
-	createStackFromLL()
 }
