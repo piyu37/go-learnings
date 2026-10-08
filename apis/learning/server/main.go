@@ -4,9 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
+	"practice/apis/learning/log"
 	"time"
-
-	"practice/apis/log"
 )
 
 func main() {
