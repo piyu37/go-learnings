@@ -1,5 +1,7 @@
 package main
 
+import prefixSuffix "practice/array/prefix_suffix"
+
 func main() {
 	arrayRotate()
 	bestSightSeeingPair()
@@ -8,6 +10,7 @@ func main() {
 	duplicateNumber()
 	equal_circle_segments()
 	findClosestValueMain()
+	prefixSuffix.FindLeftSmallRightLargeInArrayMain()
 	flattenend()
 	floodCity()
 	gameLife()
@@ -26,6 +29,8 @@ func main() {
 	maxChunksToSortedMain()
 	maxChunksToSorted2Main()
 	maxSubarrayKadane()
+	maxSumRectangleMatrixKadane()
+	maxSumSubmatrixWithQuery()
 	mergeMain()
 	minChairs()
 	mmtInterviewCovid()
@@ -36,6 +41,7 @@ func main() {
 	pairWithGivenSum()
 	pascalTriangle()
 	powersetMain()
+	prefixSumMatrixMain()
 	productArrayExceptSelfMain()
 	reachTheEnd()
 	rearrangeMaxMin()
