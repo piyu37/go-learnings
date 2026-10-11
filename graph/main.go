@@ -12,6 +12,7 @@ func main() {
 	dfsMain()
 	evaluateDivision()
 	minGeneMutationMain()
+	minKnightMovesMain()
 	minPassMatrixMain()
 	minRectangle()
 	numOfIslandsMain()
