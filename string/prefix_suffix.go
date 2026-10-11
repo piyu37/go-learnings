@@ -50,7 +50,7 @@ func calculateScore(text, prefixString, suffixString string) string {
 	}
 
 	// store the highest key, so we can sort the right item to return
-	maximumPatternScore := max(getKeys(result))
+	maximumPatternScore := maxFromSlice(getKeys(result))
 
 	maxScore := result[min(maximumPatternScore, len(text))]
 
@@ -58,7 +58,7 @@ func calculateScore(text, prefixString, suffixString string) string {
 	return maxScore[0]
 }
 
-func max(arr []int) int {
+func maxFromSlice(arr []int) int {
 	max := arr[0]
 	for i := 1; i < len(arr); i++ {
 		if arr[i] > max {
