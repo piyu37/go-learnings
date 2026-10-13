@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 func rotate(matrix [][]int) {
 	row := 0
@@ -44,9 +47,28 @@ func rotate(matrix [][]int) {
 	}
 }
 
+func rotateWithoutSpace(matrix [][]int) {
+	n := len(matrix)
+
+	// transpose: swap across the main diagonal
+	for i := range n {
+		for j := i + 1; j < n; j++ {
+			matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+		}
+	}
+
+	// reverse each row
+	for _, row := range matrix {
+		slices.Reverse(row) // Go 1.21+, import "slices"
+	}
+}
+
 // https://leetcode.com/problems/rotate-image/description/?envType=study-plan-v2&envId=top-interview-150
 func rotateImage() {
 	arr := [][]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
 	rotate(arr)
+	fmt.Println(arr)
+
+	rotateWithoutSpace(arr)
 	fmt.Println(arr)
 }

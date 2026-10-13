@@ -58,4 +58,42 @@ func maxSumRectangleMatrixKadane() {
 	}
 
 	fmt.Println(maxRectSum(matrix))
+
+	fmt.Println(maxRectSumPos(matrix))
+}
+
+func maxRectSumPos(matrix [][]int) (int, int, int, int, int) {
+	maxSum := math.MinInt16
+	colLen := len(matrix[0])
+
+	maxSumStartRowIdx, maxSumEndRowIdx, maxSumStartColIdx, maxSumEndColIdx := 0, 0, 0, 0
+
+	for c1 := range colLen {
+		rowSubArraySum := make([]int, len(matrix))
+
+		for c2 := c1; c2 < colLen; c2++ {
+
+			for r := range matrix {
+				rowSubArraySum[r] += matrix[r][c2]
+			}
+
+			subArrSum := 0
+			startRowIdx := 0
+			for i := range rowSubArraySum {
+				if subArrSum < 0 {
+					subArrSum = 0
+					startRowIdx = i
+				}
+				
+				subArrSum += rowSubArraySum[i]
+
+				if subArrSum > maxSum {
+					maxSum = subArrSum
+					maxSumStartRowIdx, maxSumEndRowIdx, maxSumStartColIdx, maxSumEndColIdx = startRowIdx, i, c1, c2
+				}
+			}
+		}
+	}
+
+	return maxSum, maxSumStartRowIdx, maxSumStartColIdx, maxSumEndRowIdx, maxSumEndColIdx
 }
