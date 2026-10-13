@@ -5,6 +5,7 @@ func main() {
 	heapSortMain()
 	heapMain()
 	kthLargest()
+	medianDataStream()
 	mstPrimmsMain()
 	totalCostHireKWorkers()
 	topKFrequentElements()
