@@ -2,24 +2,37 @@ package main
 
 import "fmt"
 
+// DFS cycle detection.
+// Time: O(V + E) - each course and each prerequisite edge is visited once.
+// Space: O(V + E) - adjacency list O(V + E), state O(V), recursion stack O(V) in the worst case.
+// Same complexity as canFinishKahn, but a very long prerequisite chain means deep recursion.
 func canFinish(numCourses int, prerequisites [][]int) bool {
-	if len(prerequisites) == 0 {
-		return true
+	graph := make([][]int, numCourses)
+	for _, p := range prerequisites {
+		graph[p[1]] = append(graph[p[1]], p[0])
 	}
 
-	courseGraph := make(map[int][]int)
+	state := make([]int, numCourses) // 0 = unvisited, 1 = in progress, 2 = done
 
-	for i := range prerequisites {
-		edge := prerequisites[i]
+	var hasCycle func(int) bool
+	hasCycle = func(node int) bool {
+		if state[node] != 0 {
+			return state[node] == 1
+		}
 
-		courseGraph[edge[1]] = append(courseGraph[edge[1]], edge[0])
+		state[node] = 1
+		for _, next := range graph[node] {
+			if hasCycle(next) {
+				return true
+			}
+		}
+		state[node] = 2
+
+		return false
 	}
 
-	visited := make([]bool, numCourses)
-	inStack := make([]bool, numCourses)
-
-	for key := range courseGraph {
-		if checkCycleDFS(key, courseGraph, inStack, visited) {
+	for i := range numCourses {
+		if hasCycle(i) {
 			return false
 		}
 	}
@@ -27,29 +40,41 @@ func canFinish(numCourses int, prerequisites [][]int) bool {
 	return true
 }
 
-func checkCycleDFS(node int, courseGraph map[int][]int, inStack, visited []bool) bool {
-	if inStack[node] {
-		return true
+// Kahn's algorithm: repeatedly take courses with no remaining prerequisites.
+// If every course gets taken, there is no cycle.
+// Time: O(V + E) - each course is queued once and each edge is relaxed once.
+// Space: O(V + E) - adjacency list O(V + E), inDegree O(V), queue O(V).
+// Same complexity as canFinish, but iterative, so no recursion-depth risk on long chains.
+func canFinishKahn(numCourses int, prerequisites [][]int) bool {
+	graph := make([][]int, numCourses)
+	inDegree := make([]int, numCourses)
+	for _, p := range prerequisites {
+		graph[p[1]] = append(graph[p[1]], p[0])
+		inDegree[p[0]]++
 	}
 
-	if visited[node] {
-		return false
-	}
-
-	neighbors := courseGraph[node]
-
-	visited[node] = true
-	inStack[node] = true
-
-	for _, nie := range neighbors {
-		if checkCycleDFS(nie, courseGraph, inStack, visited) {
-			return true
+	queue := []int{}
+	for i := range numCourses {
+		if inDegree[i] == 0 {
+			queue = append(queue, i)
 		}
 	}
 
-	inStack[node] = false
+	taken := 0
+	for len(queue) > 0 {
+		node := queue[0]
+		queue = queue[1:]
+		taken++
 
-	return false
+		for _, next := range graph[node] {
+			inDegree[next]--
+			if inDegree[next] == 0 {
+				queue = append(queue, next)
+			}
+		}
+	}
+
+	return taken == numCourses
 }
 
 // https://leetcode.com/problems/course-schedule/description/?envType=study-plan-v2&envId=top-interview-150
@@ -58,9 +83,11 @@ func courseSchedule() {
 	prequisites := [][]int{{1, 0}}
 
 	fmt.Println(canFinish(numCourse, prequisites))
+	fmt.Println(canFinishKahn(numCourse, prequisites))
 
 	numCourse = 2
 	prequisites = [][]int{{1, 0}, {0, 1}}
 
 	fmt.Println(canFinish(numCourse, prequisites))
+	fmt.Println(canFinishKahn(numCourse, prequisites))
 }
