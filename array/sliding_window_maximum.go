@@ -7,32 +7,29 @@ func maxSlidingWindow(nums []int, k int) []int {
 		return []int{}
 	}
 
-	dq := make([]int, 0, len(nums))
+	monotonicMaxDeque := make([]int, 0, len(nums))
 
 	result := make([]int, 0, len(nums)-k+1)
 
 	for i := range nums {
-		if len(dq) != 0 && i == dq[0]+k {
-			dq = dq[1:]
+		// removing first element from monotonicMaxDeque when i is max & it is out of bound from sliding window
+		if len(monotonicMaxDeque) != 0 && i == monotonicMaxDeque[0]+k {
+			monotonicMaxDeque = monotonicMaxDeque[1:]
 		}
 
-		for len(dq) != 0 {
-			if nums[i] < nums[dq[len(dq)-1]] {
-				break
-			}
-
-			dq = dq[:len(dq)-1]
+		for len(monotonicMaxDeque) != 0 && nums[i] >= nums[monotonicMaxDeque[len(monotonicMaxDeque)-1]] {
+			monotonicMaxDeque = monotonicMaxDeque[:len(monotonicMaxDeque)-1]
 		}
 
-		dq = append(dq, i)
+		monotonicMaxDeque = append(monotonicMaxDeque, i)
 
 		if i+1 >= k {
-			result = append(result, nums[dq[0]])
+			result = append(result, nums[monotonicMaxDeque[0]])
 		}
 	}
 
 	if k > len(nums) {
-		result = append(result, nums[dq[0]])
+		result = append(result, nums[monotonicMaxDeque[0]])
 	}
 
 	return result

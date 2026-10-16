@@ -5,59 +5,34 @@ import "fmt"
 func numIslands(grid [][]byte) int {
 	totalIslands := 0
 
-	for i := 0; i < len(grid); i++ {
-		for j := 0; j < len(grid[0]); j++ {
-			if grid[i][j] == '0' || grid[i][j] == '2' {
-				continue
+	for i := range grid {
+		for j := range grid[i] {
+			if grid[i][j] == '1' {
+				markIsland(i, j, grid)
+				totalIslands++
 			}
-
-			grid = markIsland(i, j, grid)
-			totalIslands++
 		}
 	}
 	return totalIslands
 }
 
-func markIsland(i, j int, arr [][]byte) [][]byte {
-	neighborNodes := [][]int{{i, j}}
-	for len(neighborNodes) > 0 {
-		arrPos := neighborNodes[0]
-		i := arrPos[0]
-		j := arrPos[1]
+var directions = [4][2]int{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}
 
-		neighborNodes = neighborNodes[1:]
+func markIsland(i, j int, grid [][]byte) {
+	grid[i][j] = '2'
+	queue := [][2]int{{i, j}}
+	for len(queue) > 0 {
+		cell := queue[0]
+		queue = queue[1:]
 
-		if arr[i][j] == '1' {
-			arr[i][j] = '2'
-			neighbors := get01Neighbors(i, j, arr)
-
-			neighborNodes = append(neighborNodes, neighbors...)
+		for _, d := range directions {
+			r, c := cell[0]+d[0], cell[1]+d[1]
+			if r >= 0 && r < len(grid) && c >= 0 && c < len(grid[0]) && grid[r][c] == '1' {
+				grid[r][c] = '2'
+				queue = append(queue, [2]int{r, c})
+			}
 		}
 	}
-
-	return arr
-}
-
-func get01Neighbors(i, j int, arr [][]byte) [][]int {
-	nodes := [][]int{}
-
-	if j < len(arr[0])-1 && arr[i][j+1] == '1' {
-		nodes = append(nodes, []int{i, j + 1})
-	}
-
-	if i < len(arr)-1 && arr[i+1][j] == '1' {
-		nodes = append(nodes, []int{i + 1, j})
-	}
-
-	if j > 0 && arr[i][j-1] == '1' {
-		nodes = append(nodes, []int{i, j - 1})
-	}
-
-	if i > 0 && arr[i-1][j] == '1' {
-		nodes = append(nodes, []int{i - 1, j})
-	}
-
-	return nodes
 }
 
 // https://leetcode.com/problems/number-of-islands/submissions/1170503021/?envType=study-plan-v2&envId=top-interview-150
