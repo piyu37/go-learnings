@@ -3,6 +3,7 @@ package main
 func main() {
 	crawler()
 	diningPhilosophers()
+	droppedRequestsMain()
 	extendedOddEven()
 	fastPacedBidingWar()
 	fibbo()
