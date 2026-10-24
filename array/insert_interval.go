@@ -42,6 +42,34 @@ func insert(intervals [][]int, newInterval []int) [][]int {
 	return result
 }
 
+func insert2(intervals [][]int, newInterval []int) [][]int {
+	n := len(intervals)
+	i := 0
+	res := make([][]int, 0)
+
+	// Case 1: No overlapping before merging intervals
+	for i < n && intervals[i][1] < newInterval[0] {
+		res = append(res, intervals[i])
+		i++
+	}
+
+	// Case 2: Overlapping and merging intervals
+	for i < n && newInterval[1] >= intervals[i][0] {
+		newInterval[0] = min(newInterval[0], intervals[i][0])
+		newInterval[1] = max(newInterval[1], intervals[i][1])
+		i++
+	}
+	res = append(res, newInterval)
+
+	// Case 3: No overlapping after merging newInterval
+	for i < n {
+		res = append(res, intervals[i])
+		i++
+	}
+
+	return res
+}
+
 // https://leetcode.com/problems/insert-interval/?envType=study-plan-v2&envId=top-interview-150
 func insertInterval() {
 	intervals := [][]int{{1, 3}, {6, 9}}
@@ -53,9 +81,11 @@ func insertInterval() {
 	newInterval = []int{4, 8}
 
 	fmt.Println(insert(intervals, newInterval))
+	fmt.Println(insert2(intervals, newInterval))
 
 	intervals = [][]int{{1, 5}}
 	newInterval = []int{6, 8}
 
 	fmt.Println(insert(intervals, newInterval))
+	fmt.Println(insert2(intervals, newInterval))
 }
