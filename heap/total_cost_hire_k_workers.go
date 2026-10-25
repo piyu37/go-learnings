@@ -7,14 +7,6 @@ import (
 
 var MAX_VALUE int = 100_001
 
-func max(v1, v2 int) int {
-	if v1 > v2 {
-		return v1
-	}
-
-	return v2
-}
-
 func totalCost(costs []int, k int, candidates int) int64 {
 	n := len(costs)
 	leftBound := min(candidates-1, n-1)
@@ -69,14 +61,6 @@ func (h *IntHeap) Pop() any {
 	x := old[n-1]
 	*h = old[:n-1]
 	return x
-}
-
-func min(v1, v2 int) int {
-	if v1 > v2 {
-		return v2
-	}
-
-	return v1
 }
 
 // https://leetcode.com/problems/total-cost-to-hire-k-workers/
