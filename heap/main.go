@@ -6,6 +6,7 @@ func main() {
 	heapMain()
 	kthLargest()
 	medianDataStream()
+	meetingsRooms3()
 	mstPrimmsMain()
 	totalCostHireKWorkers()
 	topKFrequentElements()

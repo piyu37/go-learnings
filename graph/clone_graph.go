@@ -8,10 +8,31 @@ type Node struct {
 }
 
 func cloneGraphRecur(node *Node) *Node {
-	return createGraphRecur(node, map[int]*Node{})
+	visited := map[*Node]*Node{}
+
+	var dfs func(n *Node) *Node
+	dfs = func(n *Node) *Node {
+		if n == nil {
+			return nil
+		}
+		if clone, ok := visited[n]; ok {
+			return clone
+		}
+
+		clone := &Node{Val: n.Val, Neighbors: make([]*Node, 0, len(n.Neighbors))}
+		visited[n] = clone
+
+		for _, nb := range n.Neighbors {
+			clone.Neighbors = append(clone.Neighbors, dfs(nb))
+		}
+
+		return clone
+	}
+
+	return dfs(node)
 }
 
-func createGraphRecur(node *Node, visited map[int]*Node) *Node {
+func cloneGraphRecurBFS(node *Node) *Node {
 	if node == nil {
 		return nil
 	}
@@ -20,19 +41,27 @@ func createGraphRecur(node *Node, visited map[int]*Node) *Node {
 		Val: node.Val,
 	}
 
+	visited := make(map[int]*Node)
+
 	visited[node.Val] = clone
 
-	for i := range node.Neighbors {
-		if neighbor, ok := visited[node.Neighbors[i].Val]; ok {
-			clone.Neighbors = append(clone.Neighbors, neighbor)
-			continue
-		}
+	queue := []*Node{node}
 
-		neighbor := createGraphRecur(node.Neighbors[i], visited)
-		clone.Neighbors = append(clone.Neighbors, neighbor)
+	for len(queue) > 0 {
+		curr := queue[0]
+		queue = queue[1:]
+
+		for _, nb := range curr.Neighbors {
+			if _, ok := visited[nb.Val]; !ok {
+				queue = append(queue, nb)
+				visited[nb.Val] = &Node{Val: nb.Val}
+			}
+
+			visited[curr.Val].Neighbors = append(visited[curr.Val].Neighbors, visited[nb.Val])
+		}
 	}
 
-	return clone
+	return visited[node.Val]
 }
 
 // https://leetcode.com/problems/clone-graph/description/?envType=study-plan-v2&envId=top-interview-150
