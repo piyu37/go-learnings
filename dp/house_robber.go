@@ -34,11 +34,18 @@ func robHouse(nums []int, curr int, memoization []int) int {
 }
 
 func rob2(nums []int) int {
-	rob, not_rob := 0, 0
-	for _, n := range nums {
-		rob, not_rob = not_rob+n, max(rob, not_rob)
+	// prev2 = best total up to two houses back
+	// prev1 = best total up to the previous house
+	prev2, prev1 := 0, 0
+
+	for _, money := range nums {
+		// Two choices at this house:
+		//   skip it -> keep prev1
+		//   rob it  -> prev2 + money (can't rob the adjacent house)
+		best := max(prev1, prev2+money)
+		prev2, prev1 = prev1, best
 	}
-	return max(rob, not_rob)
+	return prev1
 }
 
 // https://leetcode.com/problems/house-robber/description/?envType=study-plan-v2&envId=top-interview-150

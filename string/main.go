@@ -7,6 +7,7 @@ func main() {
 	generateRandomPasswords()
 	isSubsequenceMain()
 	kSizeReverseLexicographicallySmaller()
+	longestCommonPrefixMain()
 	longestNonRepeatingSubstring()
 	longestRepeatingCharReplacement()
 	longestSubstringKUniqueChar()

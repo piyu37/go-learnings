@@ -4,6 +4,8 @@ func main() {
 	climbingStairsMain()
 	diskStackingMain()
 	houseRobber()
+	houseRobber2()
+	houseRobber3()
 	knapsackMain()
 	levenshtienDistance()
 	longestCommonSubsequenceMain()
