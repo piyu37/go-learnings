@@ -15,6 +15,7 @@ func main() {
 	maxPathSumMain()
 	maxSeparation()
 	maxSubsetSumNoAdjacentMain()
+	maxSum2xNGridMain()
 	maxSumIncreasingSubsequence()
 	maximizeExpressionMain()
 	maximumSumSubmatrix()
